@@ -28,5 +28,10 @@ public class EnderecoController {
         return enderecoService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public EnderecoResponse findById(@PathVariable Long id){
+        return enderecoService.findById(id);
+    }
+
 
 }

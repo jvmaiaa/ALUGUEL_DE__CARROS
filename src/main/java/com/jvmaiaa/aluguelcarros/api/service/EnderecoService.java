@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponse;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ViaCepResponse;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
+import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,13 @@ public class EnderecoService {
         return restTemplate.getForObject(url, ViaCepResponse.class);
     }
 
+    public EnderecoResponse insert(EnderecoRequest enderecoRequest){
+        verificaCamposNulos(enderecoRequest);
+        EnderecoEntity enderecoEntity = modelMapper.map(enderecoRequest, EnderecoEntity.class);
+        enderecoRepository.save(enderecoEntity);
+        return modelMapper.map(enderecoEntity, EnderecoResponse.class);
+    }
+
     public List<EnderecoResponse> findAll(){
         return  enderecoRepository.findAll()
                 .stream()
@@ -37,10 +45,9 @@ public class EnderecoService {
                 .collect(Collectors.toList());
     }
 
-    public EnderecoResponse insert(EnderecoRequest enderecoRequest){
-        verificaCamposNulos(enderecoRequest);
-        EnderecoEntity enderecoEntity = modelMapper.map(enderecoRequest, EnderecoEntity.class);
-        enderecoRepository.save(enderecoEntity);
+    public EnderecoResponse findById(Long id){
+        EnderecoEntity enderecoEntity = enderecoRepository.findById(id).orElseThrow(
+                () -> new EnderecoNotFoundException(id));
         return modelMapper.map(enderecoEntity, EnderecoResponse.class);
     }
 
