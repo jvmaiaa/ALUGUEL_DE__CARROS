@@ -33,5 +33,9 @@ public class EnderecoController {
         return enderecoService.findById(id);
     }
 
+    @PutMapping("/{id}")
+    public EnderecoResponse update(@PathVariable("id") Long id, @RequestBody EnderecoRequest request){
+        return enderecoService.update(id, request);
+    }
 
 }

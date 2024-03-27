@@ -8,10 +8,13 @@ import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,6 +52,36 @@ public class EnderecoService {
         EnderecoEntity enderecoEntity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
         return modelMapper.map(enderecoEntity, EnderecoResponse.class);
+    }
+
+    public EnderecoResponse update(Long id, EnderecoRequest request){
+        EnderecoEntity entity = enderecoRepository.findById(id).orElseThrow(
+                () -> new EnderecoNotFoundException(id));
+        atualizaCamposEndereco(entity, request);
+        modelMapper.map(entity, EnderecoResponse.class);
+        enderecoRepository.save(entity);
+        return modelMapper.map(entity, EnderecoResponse.class);
+    }
+
+    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest obj){
+        if (obj.getCep() != null && !(Objects.equals(entity.getCep(), obj.getCep()))){
+            entity.setCep(obj.getCep());
+        }
+        if (obj.getRua() != null && !(Objects.equals(entity.getRua(), obj.getRua()))){
+            entity.setRua(obj.getRua());
+        }
+        if (obj.getNumero() != null && !(Objects.equals(entity.getNumero(), obj.getNumero()))){
+            entity.setNumero(obj.getNumero());
+        }
+        if ( obj.getBairro() != null && !(Objects.equals(entity.getBairro(), obj.getBairro()))){
+            entity.setBairro(obj.getBairro());
+        }
+        if (obj.getCidade() != null && !(Objects.equals(entity.getCidade(), obj.getCidade()))){
+            entity.setCidade(obj.getCidade());
+        }
+        if (obj.getEstado() != null && !(Objects.equals(entity.getEstado(), obj.getEstado()))){
+            entity.setEstado(obj.getEstado());
+        }
     }
 
     private void verificaCamposNulos(EnderecoRequest enderecoRequest){
