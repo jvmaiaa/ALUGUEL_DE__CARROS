@@ -63,6 +63,11 @@ public class EnderecoService {
         return modelMapper.map(entity, EnderecoResponse.class);
     }
 
+    public void delete(Long id){
+        enderecoRepository.delete(enderecoRepository.findById(id).orElseThrow(
+                () -> new EnderecoNotFoundException(id)));
+    }
+
     private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest obj){
         if (obj.getCep() != null && !(Objects.equals(entity.getCep(), obj.getCep()))){
             entity.setCep(obj.getCep());
