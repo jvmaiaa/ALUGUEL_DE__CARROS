@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -66,26 +67,25 @@ public class EnderecoService {
                 () -> new EnderecoNotFoundException(id)));
     }
 
-    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest dto){
-        if (dto.getCep() != null && !Objects.equals(entity.getCep(), dto.getCep())) {
-            entity.setCep(dto.getCep());
-        }
-        if (dto.getRua() != null && !Objects.equals(entity.getRua(), dto.getRua())){
-            entity.setRua(dto.getRua());
-        }
-        if (dto.getNumero() != null && !(Objects.equals(entity.getNumero(), dto.getNumero()))){
-            entity.setNumero(dto.getNumero());
-        }
-        if ( dto.getBairro() != null && !(Objects.equals(entity.getBairro(), dto.getBairro()))){
-            entity.setBairro(dto.getBairro());
-        }
-        if (dto.getCidade() != null && !(Objects.equals(entity.getCidade(), dto.getCidade()))){
-            entity.setCidade(dto.getCidade());
-        }
-        if (dto.getEstado() != null && !(Objects.equals(entity.getEstado(), dto.getEstado()))){
-            entity.setEstado(dto.getEstado());
+    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest dto) {
+        Field[] camposDTO = dto.getClass().getDeclaredFields();
+
+        for (Field campoDTO : camposDTO) {
+            try {
+                Field campoEntity = entity.getClass().getDeclaredField(campoDTO.getName());
+                campoDTO.setAccessible(true);
+                Object valorDTO = campoDTO.get(dto);
+
+                if (valorDTO != null) {
+                    campoEntity.setAccessible(true);
+                    campoEntity.set(entity, valorDTO);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     private void converteCampos(EnderecoRequest dto){
         String url = VIA_CEP_URL + dto.getCep() + "/json/";
