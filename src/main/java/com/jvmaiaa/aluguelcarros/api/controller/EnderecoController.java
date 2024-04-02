@@ -42,7 +42,8 @@ public class EnderecoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
-    public EnderecoResponse update(@PathVariable("id") Long id, @RequestBody EnderecoRequest request){
+    public EnderecoResponse update(@PathVariable("id") Long id,
+                                   @RequestBody EnderecoRequest request){
         return enderecoService.update(id, request);
     }
 

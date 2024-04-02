@@ -8,9 +8,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -34,11 +32,11 @@ public class EnderecoService {
         return restTemplate.getForObject(url, ViaCepResponse.class);
     }
 
-    public EnderecoResponse insert(EnderecoRequest enderecoRequest){
-        verificaCamposNulos(enderecoRequest);
-        EnderecoEntity enderecoEntity = modelMapper.map(enderecoRequest, EnderecoEntity.class);
-        enderecoRepository.save(enderecoEntity);
-        return modelMapper.map(enderecoEntity, EnderecoResponse.class);
+    public EnderecoResponse insert(EnderecoRequest dto){
+        converteCampos(dto);
+        EnderecoEntity dtoParaEntidade = modelMapper.map(dto, EnderecoEntity.class);
+        enderecoRepository.save(dtoParaEntidade);
+        return modelMapper.map(dtoParaEntidade, EnderecoResponse.class);
     }
 
     public List<EnderecoResponse> findAll(){
@@ -54,10 +52,10 @@ public class EnderecoService {
         return modelMapper.map(enderecoEntity, EnderecoResponse.class);
     }
 
-    public EnderecoResponse update(Long id, EnderecoRequest request){
+    public EnderecoResponse update(Long id, EnderecoRequest dto){
         EnderecoEntity entity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
-        atualizaCamposEndereco(entity, request);
+        atualizaCamposEndereco(entity, dto);
         modelMapper.map(entity, EnderecoResponse.class);
         enderecoRepository.save(entity);
         return modelMapper.map(entity, EnderecoResponse.class);
@@ -68,42 +66,36 @@ public class EnderecoService {
                 () -> new EnderecoNotFoundException(id)));
     }
 
-    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest obj){
-        if (obj.getCep() != null && !(Objects.equals(entity.getCep(), obj.getCep()))){
-            entity.setCep(obj.getCep());
+    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest dto){
+        if (dto.getCep() != null && !Objects.equals(entity.getCep(), dto.getCep())) {
+            entity.setCep(dto.getCep());
         }
-        if (obj.getRua() != null && !(Objects.equals(entity.getRua(), obj.getRua()))){
-            entity.setRua(obj.getRua());
+        if (dto.getRua() != null && !Objects.equals(entity.getRua(), dto.getRua())){
+            entity.setRua(dto.getRua());
         }
-        if (obj.getNumero() != null && !(Objects.equals(entity.getNumero(), obj.getNumero()))){
-            entity.setNumero(obj.getNumero());
+        if (dto.getNumero() != null && !(Objects.equals(entity.getNumero(), dto.getNumero()))){
+            entity.setNumero(dto.getNumero());
         }
-        if ( obj.getBairro() != null && !(Objects.equals(entity.getBairro(), obj.getBairro()))){
-            entity.setBairro(obj.getBairro());
+        if ( dto.getBairro() != null && !(Objects.equals(entity.getBairro(), dto.getBairro()))){
+            entity.setBairro(dto.getBairro());
         }
-        if (obj.getCidade() != null && !(Objects.equals(entity.getCidade(), obj.getCidade()))){
-            entity.setCidade(obj.getCidade());
+        if (dto.getCidade() != null && !(Objects.equals(entity.getCidade(), dto.getCidade()))){
+            entity.setCidade(dto.getCidade());
         }
-        if (obj.getEstado() != null && !(Objects.equals(entity.getEstado(), obj.getEstado()))){
-            entity.setEstado(obj.getEstado());
+        if (dto.getEstado() != null && !(Objects.equals(entity.getEstado(), dto.getEstado()))){
+            entity.setEstado(dto.getEstado());
         }
     }
 
-    private void verificaCamposNulos(EnderecoRequest enderecoRequest){
-        String url = VIA_CEP_URL + enderecoRequest.getCep() + "/json/";
+    private void converteCampos(EnderecoRequest dto){
+        String url = VIA_CEP_URL + dto.getCep() + "/json/";
         ViaCepResponse response = restTemplate.getForObject(url, ViaCepResponse.class);
 
-        if (enderecoRequest.getRua() == null){
-            enderecoRequest.setRua(response.getLogradouro());
+        if (dto.getCidade() == null || dto.getCidade().trim().isEmpty()){
+            dto.setCidade(response.getLocalidade());
         }
-        if (enderecoRequest.getBairro() == null){
-            enderecoRequest.setBairro(response.getBairro());
+        if (dto.getEstado() == null || dto.getEstado().trim().isEmpty()){
+            dto.setEstado(response.getUf());
         }
-        if (enderecoRequest.getCidade() == null){
-            enderecoRequest.setCidade(response.getLocalidade());
-        }
-        if (enderecoRequest.getEstado() == null){
-            enderecoRequest.setEstado(response.getUf());
-        }
-    }
+    }                  
 }

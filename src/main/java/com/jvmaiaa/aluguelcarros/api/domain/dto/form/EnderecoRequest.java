@@ -1,19 +1,22 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.form;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class EnderecoRequest {
 
-    @NotNull
+    @NotEmpty
     private String cep;
 
+    @NotEmpty
     private String rua;
 
-    @NotNull
+    @NotEmpty
     private String numero;
 
+    @NotEmpty
     private String bairro;
 
     private String cidade;
