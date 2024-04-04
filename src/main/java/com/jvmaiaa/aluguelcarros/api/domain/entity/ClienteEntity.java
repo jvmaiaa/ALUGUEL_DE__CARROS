@@ -22,4 +22,8 @@ public class ClienteEntity {
     private LocalDate idade;
     private String numeroDeTelefone;
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
+    private EnderecoEntity enderecoEntity;
 }

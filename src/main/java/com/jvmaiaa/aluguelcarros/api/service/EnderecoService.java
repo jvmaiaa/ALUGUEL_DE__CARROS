@@ -11,9 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,27 +31,27 @@ public class EnderecoService {
         return restTemplate.getForObject(url, ViaCepResponse.class);
     }
 
-    public EnderecoResponse insert(EnderecoRequest dto){
+    public EnderecoResponse cadastraEndereco(EnderecoRequest dto){
         converteCampos(dto);
         EnderecoEntity dtoParaEntidade = modelMapper.map(dto, EnderecoEntity.class);
         enderecoRepository.save(dtoParaEntidade);
         return modelMapper.map(dtoParaEntidade, EnderecoResponse.class);
     }
 
-    public List<EnderecoResponse> findAll(){
+    public List<EnderecoResponse> listarEndereco(){
         return  enderecoRepository.findAll()
                 .stream()
                 .map(endereco -> modelMapper.map(endereco, EnderecoResponse.class))
                 .collect(Collectors.toList());
     }
 
-    public EnderecoResponse findById(Long id){
+    public EnderecoResponse buscarId(Long id){
         EnderecoEntity enderecoEntity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
         return modelMapper.map(enderecoEntity, EnderecoResponse.class);
     }
 
-    public EnderecoResponse update(Long id, EnderecoRequest dto){
+    public EnderecoResponse atualizaEndereco(Long id, EnderecoRequest dto){
         EnderecoEntity entity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
         atualizaCamposEndereco(entity, dto);
@@ -67,25 +65,26 @@ public class EnderecoService {
                 () -> new EnderecoNotFoundException(id)));
     }
 
-    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest dto) {
-        Field[] camposDTO = dto.getClass().getDeclaredFields();
-
-        for (Field campoDTO : camposDTO) {
-            try {
-                Field campoEntity = entity.getClass().getDeclaredField(campoDTO.getName());
-                campoDTO.setAccessible(true);
-                Object valorDTO = campoDTO.get(dto);
-
-                if (valorDTO != null) {
-                    campoEntity.setAccessible(true);
-                    campoEntity.set(entity, valorDTO);
-                }
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+    private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequest dto){
+        if (dto.getCep() != null) {
+            entity.setCep(dto.getCep());
+        }
+        if (dto.getRua() != null){
+            entity.setRua(dto.getRua());
+        }
+        if (dto.getNumero() != null){
+            entity.setNumero(dto.getNumero());
+        }
+        if ( dto.getBairro() != null){
+            entity.setBairro(dto.getBairro());
+        }
+        if (dto.getCidade() != null){
+            entity.setCidade(dto.getCidade());
+        }
+        if (dto.getEstado() != null){
+            entity.setEstado(dto.getEstado());
         }
     }
-
 
     private void converteCampos(EnderecoRequest dto){
         String url = VIA_CEP_URL + dto.getCep() + "/json/";

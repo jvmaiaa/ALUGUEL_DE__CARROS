@@ -2,13 +2,10 @@ package com.jvmaiaa.aluguelcarros.api.controller;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.form.EnderecoRequest;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponse;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ViaCepResponse;
 import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
-import jakarta.validation.OverridesAttribute;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.DeclareError;
-import org.springframework.http.HttpStatus;
+
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,26 +22,26 @@ public class EnderecoController {
     @PostMapping
     @ResponseStatus(CREATED)
     public EnderecoResponse criaEndereco(@RequestBody @Valid EnderecoRequest request){
-        return enderecoService.insert(request);
+        return enderecoService.cadastraEndereco(request);
     }
 
     @GetMapping
     @ResponseStatus(OK)
     public List<EnderecoResponse> findAll(){
-        return enderecoService.findAll();
+        return enderecoService.listarEndereco();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponse findById(@PathVariable Long id){
-        return enderecoService.findById(id);
+        return enderecoService.buscarId(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponse update(@PathVariable("id") Long id,
                                    @RequestBody EnderecoRequest request){
-        return enderecoService.update(id, request);
+        return enderecoService.atualizaEndereco(id, request);
     }
 
     @DeleteMapping("/{id}")

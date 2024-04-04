@@ -20,4 +20,8 @@ public class EnderecoEntity {
     private String bairro;
     private String cidade;
     private String estado;
+
+    @OneToOne(mappedBy = "enderecoEntity")
+    private ClienteEntity cliente;
+
 }
