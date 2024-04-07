@@ -19,7 +19,7 @@ public class ClienteEntity {
     private String cpf;
     private String nome;
     private String cnh;
-    private LocalDate idade;
+    private LocalDate dataDeNascimento;
     private String numeroDeTelefone;
     private String email;
 
