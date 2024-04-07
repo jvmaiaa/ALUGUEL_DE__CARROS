@@ -28,7 +28,7 @@ public class EnderecoController {
     @GetMapping
     @ResponseStatus(OK)
     public List<EnderecoResponse> findAll(){
-        return enderecoService.listarEndereco();
+        return enderecoService.listarEnderecos();
     }
 
     @GetMapping("/{id}")

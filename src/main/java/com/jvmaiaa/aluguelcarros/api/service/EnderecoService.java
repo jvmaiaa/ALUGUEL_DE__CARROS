@@ -26,11 +26,6 @@ public class EnderecoService {
 
     private final RestTemplate restTemplate;
 
-    public ViaCepResponse consultaCep(String cep){
-        String url = VIA_CEP_URL + cep + "/json/";
-        return restTemplate.getForObject(url, ViaCepResponse.class);
-    }
-
     public EnderecoResponse cadastraEndereco(EnderecoRequest dto){
         converteCampos(dto);
         EnderecoEntity dtoParaEntidade = modelMapper.map(dto, EnderecoEntity.class);
@@ -38,7 +33,7 @@ public class EnderecoService {
         return modelMapper.map(dtoParaEntidade, EnderecoResponse.class);
     }
 
-    public List<EnderecoResponse> listarEndereco(){
+    public List<EnderecoResponse> listarEnderecos(){
         return  enderecoRepository.findAll()
                 .stream()
                 .map(endereco -> modelMapper.map(endereco, EnderecoResponse.class))
