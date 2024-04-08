@@ -35,4 +35,11 @@ public class ClienteController {
     public ClienteResponse buscarId(@Valid @PathVariable("id") Long id){
         return clienteService.buscaPorId(id);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(OK)
+    public ClienteResponse atualizaClientes(@Valid @PathVariable("id") Long id,
+                                            @RequestBody ClienteRequest dto){
+        return clienteService.atualizar(id, dto);
+    }
 }

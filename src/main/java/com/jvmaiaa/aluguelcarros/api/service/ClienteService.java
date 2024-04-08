@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponse;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.ClienteRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.ClienteNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.mapper.Builder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,13 @@ public class ClienteService {
                 () -> new ClienteNotFoundException(id));
         return modelMapper.map(clienteEntity, ClienteResponse.class);
     }
+
+    public ClienteResponse atualizar(Long id, ClienteRequest dto){
+        ClienteEntity entity = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException(id));
+        Builder.atualizaCamposDaEntidade(entity, dto);
+        return modelMapper.map(entity, ClienteResponse.class);
+    }
+
 
 }
