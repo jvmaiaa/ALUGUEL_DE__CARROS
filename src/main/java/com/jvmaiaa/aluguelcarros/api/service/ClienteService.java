@@ -48,5 +48,10 @@ public class ClienteService {
         return modelMapper.map(entity, ClienteResponse.class);
     }
 
+    public void deletaCliente(Long id){
+        clienteRepository.delete(clienteRepository.findById(id)
+                .orElseThrow( () -> new ClienteNotFoundException(id) ));
+    }
+
 
 }

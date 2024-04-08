@@ -42,4 +42,10 @@ public class ClienteController {
                                             @RequestBody ClienteRequest dto){
         return clienteService.atualizar(id, dto);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void deletaCliente(@PathVariable("id") Long id){
+        clienteService.deletaCliente(id);
+    }
 }

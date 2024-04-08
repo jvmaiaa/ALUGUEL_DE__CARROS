@@ -9,6 +9,6 @@ public class EnderecoNotFoundException extends RuntimeException {
     }
 
     public EnderecoNotFoundException(Long id){
-        super(String.format("Pessoa com id %d não encontrada" + id));
+        super(String.format("Pessoa com id %d não encontrada", id));
     }
 }
