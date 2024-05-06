@@ -1,29 +1,30 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
+import com.jvmaiaa.aluguelcarros.api.domain.enums.FormaDePagamento;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
+@Table(name = "tb_cliente")
 @Entity
-@Table(name = "tb_client")
-public class ClienteEntity {
+public final class ClienteEntity extends UsuarioEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String cpf;
-    private String nome;
     private String cnh;
-    private LocalDate dataDeNascimento;
-    private String numeroDeTelefone;
-    private String email;
+    private FormaDePagamento formaDePagamento;
 
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private EnderecoEntity enderecoEntity;
+
+    @OneToOne
+    @JoinColumn(name = "carro_id")
+    private CarroEntity carroEntity;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<PedidoEntity> pedidoEntity;
 }

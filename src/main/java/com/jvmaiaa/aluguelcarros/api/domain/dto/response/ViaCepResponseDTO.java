@@ -3,7 +3,7 @@ package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 import lombok.Data;
 
 @Data
-public class ViaCepResponse {
+public class ViaCepResponseDTO {
 
     private String cep;
     private String logradouro;

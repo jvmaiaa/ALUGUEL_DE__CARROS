@@ -1,11 +1,10 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.form;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class EnderecoRequest {
+public class EnderecoRequestDTO {
 
     @NotEmpty(message = "O campo CEP não pode ficar em branco.")
     private String cep;

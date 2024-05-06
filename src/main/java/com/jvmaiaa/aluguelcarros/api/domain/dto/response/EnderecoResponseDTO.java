@@ -2,7 +2,7 @@ package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 import lombok.Data;
 
 @Data
-public class EnderecoResponse {
+public class EnderecoResponseDTO {
 
     private Long id;
     private String cep;

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ClienteResponse {
+public class ClienteResponseDTO {
 
     private Long id;
 
@@ -15,7 +15,7 @@ public class ClienteResponse {
 
     private String cnh;
 
-    private LocalDate dataDeNascimento;
+    private Integer idade;
 
     private String numeroDeTelefone;
 

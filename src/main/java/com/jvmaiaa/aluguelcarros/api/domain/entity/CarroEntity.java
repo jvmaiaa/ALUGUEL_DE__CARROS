@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@Table(name = "tb_carro")
 @Entity
-@Table(name = "tb_car")
 public class CarroEntity {
 
     @Id
@@ -20,7 +21,12 @@ public class CarroEntity {
     private String placa;
     private String marca;
     private String modelo;
-    private String ano;
+    private Integer anoDoCarro;
     private BigDecimal taxaDiaria;
+
+    @Enumerated(EnumType.STRING)
     private TipoDoMotor tipoDoMotor;
+
+    @OneToOne(mappedBy = "carroEntity")
+    private ClienteEntity clienteEntity;
 }

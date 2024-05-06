@@ -1,17 +1,17 @@
 package com.jvmaiaa.aluguelcarros.api.mapper;
 
-import com.jvmaiaa.aluguelcarros.api.domain.dto.form.ClienteRequest;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.form.ClienteRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Builder {
 
-    private final ClienteRequest clienteRequest;
+    private final ClienteRequestDTO clienteRequest;
 
     private final ClienteEntity clienteEntity;
 
-    public static void atualizaCamposDaEntidade(ClienteEntity entity, ClienteRequest dto){
+    public static void atualizaCamposDaEntidade(ClienteEntity entity, ClienteRequestDTO dto){
         if (dto.getCpf() != null){
             entity.setCpf(dto.getCpf());
         }
@@ -21,8 +21,8 @@ public class Builder {
         if (dto.getCnh() != null){
             entity.setCnh(dto.getCnh());
         }
-        if (dto.getDataDeNascimento() != null){
-            entity.setDataDeNascimento(dto.getDataDeNascimento());
+        if (dto.getIdade() != null){
+            entity.setIdade(dto.getIdade());
         }
         if(dto.getNumeroDeTelefone() != null){
             entity.setNumeroDeTelefone(dto.getNumeroDeTelefone());

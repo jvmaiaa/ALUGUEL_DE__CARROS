@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import java.time.LocalDate;
 
 @Data
-public class ClienteRequest {
+public class ClienteRequestDTO {
 
     @CPF(message = "CPF inválido. Realize a verificação")
     @NotNull(message = "Campo CPF não pode ser nulo")
@@ -24,7 +24,7 @@ public class ClienteRequest {
     private String cnh;
 
     @NotNull(message = "O campo 'DATA DE NASCIMENTO' não pode ser nulo.")
-    private LocalDate dataDeNascimento;
+    private Integer idade;
 
     @Column(length = 9)
     private String numeroDeTelefone;

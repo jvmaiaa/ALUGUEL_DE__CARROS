@@ -1,8 +1,8 @@
 package com.jvmaiaa.aluguelcarros.api.controller;
 
-import com.jvmaiaa.aluguelcarros.api.domain.dto.form.ClienteRequest;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponse;
-import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.form.ClienteRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
+import com.jvmaiaa.aluguelcarros.api.service.Impl.ClienteServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,36 +16,36 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-    private final ClienteService clienteService;
+    private final ClienteServiceImpl clienteServiceImpl;
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public ClienteResponse cadastraCliente(@Valid @RequestBody ClienteRequest clienteRequest){
-        return clienteService.cadastraCliente(clienteRequest);
+    public ClienteResponseDTO cadastraCliente(@Valid @RequestBody ClienteRequestDTO clienteRequest){
+        return clienteServiceImpl.cadastraCliente(clienteRequest);
     }
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<ClienteResponse> listaClientes(){
-        return clienteService.listarClientes();
+    public List<ClienteResponseDTO> listaClientes(){
+        return clienteServiceImpl.listarClientes();
     }
 
     @GetMapping("{id}")
     @ResponseStatus(OK)
-    public ClienteResponse buscarId(@Valid @PathVariable("id") Long id){
-        return clienteService.buscaPorId(id);
+    public ClienteResponseDTO buscarId(@Valid @PathVariable("id") Long id){
+        return clienteServiceImpl.buscaPorId(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
-    public ClienteResponse atualizaClientes(@Valid @PathVariable("id") Long id,
-                                            @RequestBody ClienteRequest dto){
-        return clienteService.atualizar(id, dto);
+    public ClienteResponseDTO atualizaClientes(@Valid @PathVariable("id") Long id,
+                                               @RequestBody ClienteRequestDTO dto){
+        return clienteServiceImpl.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deletaCliente(@PathVariable("id") Long id){
-        clienteService.deletaCliente(id);
+        clienteServiceImpl.deletaCliente(id);
     }
 }
