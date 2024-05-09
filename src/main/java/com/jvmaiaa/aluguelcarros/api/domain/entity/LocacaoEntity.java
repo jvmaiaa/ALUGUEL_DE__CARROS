@@ -1,5 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
+import com.jvmaiaa.aluguelcarros.api.domain.enums.FormaDePagamento;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "tb_pedido")
 @Entity
-public class PedidoEntity {
+public class LocacaoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +21,12 @@ public class PedidoEntity {
     @Column(name = "numero_do_pedido")
     private String numeroDoPedido;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private ClienteEntity cliente;
+    @Enumerated(EnumType.STRING)
+    private FormaDePagamento formaDePagamento;
+
+//    @ManyToOne
+//    @JoinColumn(name = "cliente_id")
+//    private ClienteEntity cliente;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id")

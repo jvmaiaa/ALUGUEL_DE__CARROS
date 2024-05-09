@@ -1,8 +1,8 @@
 package com.jvmaiaa.aluguelcarros.api.controller;
 
-import com.jvmaiaa.aluguelcarros.api.domain.dto.form.ClienteRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
-import com.jvmaiaa.aluguelcarros.api.service.Impl.ClienteServiceImpl;
+import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,36 +16,48 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-    private final ClienteServiceImpl clienteServiceImpl;
+    private final ClienteService clienteService;
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public ClienteResponseDTO cadastraCliente(@Valid @RequestBody ClienteRequestDTO clienteRequest){
-        return clienteServiceImpl.cadastraCliente(clienteRequest);
+    public ClienteResponseDTO cadastra(@Valid @RequestBody ClienteRequestDTO clienteRequest){
+        return clienteService.cadastra(clienteRequest);
     }
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<ClienteResponseDTO> listaClientes(){
-        return clienteServiceImpl.listarClientes();
+    public List<ClienteResponseDTO> getClientes(){
+        return clienteService.listaCliente();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/endereco")
     @ResponseStatus(OK)
-    public ClienteResponseDTO buscarId(@Valid @PathVariable("id") Long id){
-        return clienteServiceImpl.buscaPorId(id);
+    public List<ClienteResponseDTO> getClientesComEndereco(){
+        return clienteService.listaClienteComEndereco();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(OK)
+    public ClienteResponseDTO getClientePorId(@Valid @PathVariable("id") Long id){
+        return clienteService.buscaClientePorId(id);
+    }
+
+    @GetMapping("/endereco/{id}")
+    @ResponseStatus(OK)
+    public ClienteResponseDTO getClienteComEnderecoPorId(@Valid @PathVariable("id") Long id){
+        return clienteService.buscaClienteComEnderecoPorId(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
-    public ClienteResponseDTO atualizaClientes(@Valid @PathVariable("id") Long id,
-                                               @RequestBody ClienteRequestDTO dto){
-        return clienteServiceImpl.atualizar(id, dto);
+    public ClienteResponseDTO atualizaCliente(@Valid @PathVariable("id") Long id,
+                                       @RequestBody ClienteRequestDTO dto){
+        return clienteService.atualiza(id, dto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    public void deletaCliente(@PathVariable("id") Long id){
-        clienteServiceImpl.deletaCliente(id);
+    public void deleta(@PathVariable("id") Long id){
+        clienteService.deleta(id);
     }
 }
