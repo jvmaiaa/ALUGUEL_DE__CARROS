@@ -1,12 +1,12 @@
 package com.jvmaiaa.aluguelcarros.api.service.Impl;
 
-import com.jvmaiaa.aluguelcarros.api.domain.dto.form.EnderecoRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.EnderecoRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ViaCepResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
-import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
+import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class EnderecoServiceImpl implements ClienteService {
+public class EnderecoServiceImpl implements EnderecoService {
 
     private final ModelMapper modelMapper;
 
@@ -27,27 +27,31 @@ public class EnderecoServiceImpl implements ClienteService {
 
     private final RestTemplate restTemplate;
 
-    public EnderecoResponseDTO cadastraEndereco(EnderecoRequestDTO dto){
+    @Override
+    public EnderecoResponseDTO cadastra(EnderecoRequestDTO dto){
         converteCampos(dto);
         EnderecoEntity dtoParaEntidade = modelMapper.map(dto, EnderecoEntity.class);
         enderecoRepository.save(dtoParaEntidade);
         return modelMapper.map(dtoParaEntidade, EnderecoResponseDTO.class);
     }
 
-    public List<EnderecoResponseDTO> listarEnderecos(){
+    @Override
+    public List<EnderecoResponseDTO> lista(){
         return  enderecoRepository.findAll()
                 .stream()
                 .map(endereco -> modelMapper.map(endereco, EnderecoResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public EnderecoResponseDTO buscarId(Long id){
+    @Override
+    public EnderecoResponseDTO buscaId(Long id){
         EnderecoEntity enderecoEntity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
         return modelMapper.map(enderecoEntity, EnderecoResponseDTO.class);
     }
 
-    public EnderecoResponseDTO atualizaEndereco(Long id, EnderecoRequestDTO dto){
+    @Override
+    public EnderecoResponseDTO atualiza(Long id, EnderecoRequestDTO dto){
         EnderecoEntity entity = enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id));
         atualizaCamposEndereco(entity, dto);
@@ -55,7 +59,8 @@ public class EnderecoServiceImpl implements ClienteService {
         return modelMapper.map(entity, EnderecoResponseDTO.class);
     }
 
-    public void delete(Long id){
+    @Override
+    public void deleta(Long id){
         enderecoRepository.delete(enderecoRepository.findById(id).orElseThrow(
                 () -> new EnderecoNotFoundException(id)));
     }

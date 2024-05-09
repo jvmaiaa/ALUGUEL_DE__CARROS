@@ -1,8 +1,8 @@
 package com.jvmaiaa.aluguelcarros.api.controller;
 
-import com.jvmaiaa.aluguelcarros.api.domain.dto.form.EnderecoRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.EnderecoRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponseDTO;
-import com.jvmaiaa.aluguelcarros.api.service.Impl.EnderecoServiceImpl;
+import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -16,38 +16,38 @@ import java.util.List;
 @RequestMapping("/endereco")
 public class EnderecoController {
 
-    private final EnderecoServiceImpl enderecoServiceImpl;
+    private final EnderecoService enderecoService;
 
 
     @PostMapping
     @ResponseStatus(CREATED)
     public EnderecoResponseDTO criaEndereco(@RequestBody @Valid EnderecoRequestDTO request){
-        return enderecoServiceImpl.cadastraEndereco(request);
+        return enderecoService.cadastra(request);
     }
 
     @GetMapping
     @ResponseStatus(OK)
     public List<EnderecoResponseDTO> findAll(){
-        return enderecoServiceImpl.listarEnderecos();
+        return enderecoService.lista();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO findById(@PathVariable Long id){
-        return enderecoServiceImpl.buscarId(id);
+        return enderecoService.buscaId(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO update(@PathVariable("id") Long id,
                                       @RequestBody EnderecoRequestDTO request){
-        return enderecoServiceImpl.atualizaEndereco(id, request);
+        return enderecoService.atualiza(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable("id") Long id){
-        enderecoServiceImpl.delete(id);
+        enderecoService.deleta(id);
     }
 
 }

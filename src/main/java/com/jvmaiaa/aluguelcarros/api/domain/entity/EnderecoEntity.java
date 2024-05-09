@@ -1,5 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,18 @@ public class EnderecoEntity {
     private Long id;
 
     private String cep;
+
     private String rua;
+
     private String numero;
+
     private String bairro;
+
     private String cidade;
+
     private String estado;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "enderecoEntity")
     private ClienteEntity cliente;
 
