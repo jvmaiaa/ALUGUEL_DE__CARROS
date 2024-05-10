@@ -22,4 +22,11 @@ public class ApplicationControllerAdvice {
         return e.getMessage();
     }
 
+    @ExceptionHandler(FuncionarioNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public String handleFuncionarioNotFoundException(FuncionarioNotFoundException e){
+        return e.getMessage();
+    }
+
+
 }

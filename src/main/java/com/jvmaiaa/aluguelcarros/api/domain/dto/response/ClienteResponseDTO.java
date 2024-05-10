@@ -1,6 +1,7 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.EnderecoRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,5 +42,5 @@ public class ClienteResponseDTO {
     private String observacao;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private EnderecoEntity endereco;
+    private EnderecoResponseDTO endereco;
 }

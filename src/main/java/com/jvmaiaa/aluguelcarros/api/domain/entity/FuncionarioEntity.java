@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,10 @@ public final class FuncionarioEntity extends UsuarioEntity{
     private String departamento;
 
     @Column(name = "hora_inicio")
-    private String horaInicio;
+    private LocalTime horaInicio;
 
     @Column(name = "hora_fim")
-    private String horaFim;
+    private LocalTime horaFim;
 
     @OneToMany(mappedBy = "funcionarioEntity")
     private List<LocacaoEntity> locacaoEntity = new ArrayList<>();
