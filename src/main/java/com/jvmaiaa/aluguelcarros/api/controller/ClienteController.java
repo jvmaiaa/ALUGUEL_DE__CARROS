@@ -3,10 +3,14 @@ package com.jvmaiaa.aluguelcarros.api.controller;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -20,8 +24,15 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public ClienteResponseDTO cadastra(@Valid @RequestBody ClienteRequestDTO clienteRequest){
-        return clienteService.cadastra(clienteRequest);
+    public ClienteResponseDTO cadastra(@Valid @RequestBody ClienteRequestDTO clienteRequest,
+                                       HttpServletResponse response){
+        ClienteResponseDTO clienteResponse = clienteService.cadastra(clienteRequest);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(clienteResponse.getId())
+                .toUri();
+        response.setHeader("Location", uri.toString());
+        return clienteResponse;
     }
 
     @GetMapping
