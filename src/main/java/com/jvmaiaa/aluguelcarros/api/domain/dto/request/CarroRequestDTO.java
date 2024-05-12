@@ -17,7 +17,7 @@ public class CarroRequestDTO {
 
     private String modelo;
 
-    @Min(value = 1800, message = "O ano do carro deve ter 4 dígitos")
+    @Min(value = 1900, message = "O ano do carro deve ter 4 dígitos")
     @Max(value = 2024, message = "O ano do carro deve ter 4 dígitos")
     private Integer anoDoCarro;
 

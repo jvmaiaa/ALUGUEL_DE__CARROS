@@ -28,5 +28,11 @@ public class ApplicationControllerAdvice {
         return e.getMessage();
     }
 
+    @ExceptionHandler(CarroNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public String handleCarroNotFoundException(CarroNotFoundException e){
+        return e.getMessage();
+    }
+
 
 }
