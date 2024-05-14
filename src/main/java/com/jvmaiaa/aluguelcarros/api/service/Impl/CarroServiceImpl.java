@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.CarroResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.CarroEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.CarroRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.CarroNotFoundException;
+import static com.jvmaiaa.aluguelcarros.api.mapper.CarroMapper.*;
 import com.jvmaiaa.aluguelcarros.api.service.CarroService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,13 +39,18 @@ public class CarroServiceImpl implements CarroService {
     public List<CarroResponseDTO> lista() {
         return carroRepository.findAll()
                 .stream()
-                .map(carro -> modelMapper.map(carro, CarroResponseDTO.class)).collect(Collectors.toList());/
+                .map(carro -> modelMapper.map(carro, CarroResponseDTO.class)).collect(Collectors.toList());
     }
 
-//    @Override
-//    public CarroResponseDTO atualiza(Long id, CarroRequestDTO carroRequestDTO) {
-//        return;
-//    }
+    @Override
+    public CarroResponseDTO atualiza(Long id, CarroRequestDTO dto) {
+        return carroRepository.findById(id)
+                .map(carro -> {
+                    atualizaCampos(carro, dto);
+                    carroRepository.save(carro);
+                    return modelMapper.map(carro, CarroResponseDTO.class);
+                }).orElseThrow(() -> new CarroNotFoundException(id));
+    }
 
     @Override
     public void deleta(Long id) {

@@ -1,16 +1,19 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.request;
 
 import com.jvmaiaa.aluguelcarros.api.domain.enums.TipoDoMotor;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Builder
 @Data
-public class CarroRequestDTO {
+public class CarroUpdateDTO {
 
-    // 3 letras maiúsculas, 1 digito, 1 letra maiúscula ou minúscula, e 2 digitos -> ABC1D23
-    @NotNull(message = "Placa não pode ser nula")
     @Pattern(regexp = "[A-Za-z]{3}\\d{1}[A-Za-z]\\d{2}", message = "Formato de placa inválido")
     private String placa;
 
@@ -18,12 +21,11 @@ public class CarroRequestDTO {
 
     private String modelo;
 
-    @Min(value = 1900, message = "O ano do carro deve ter 4 dígitos e ser maior que o ano de 1900")
-    @Max(value = 2024, message = "O ano do carro deve ter 4 dígitos e ser menor que o ano de 2024")
+    @Min(value = 1900, message = "O ano do carro deve ter 4 dígitos")
+    @Max(value = 2024, message = "O ano do carro deve ter 4 dígitos")
     private Integer anoDoCarro;
 
     private BigDecimal taxaDiaria;
 
     private TipoDoMotor tipoDoMotor;
-
 }

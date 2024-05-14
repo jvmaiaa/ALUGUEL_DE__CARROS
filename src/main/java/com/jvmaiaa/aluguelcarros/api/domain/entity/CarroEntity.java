@@ -2,6 +2,7 @@ package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
 import com.jvmaiaa.aluguelcarros.api.domain.enums.TipoDoMotor;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_carro")
 @Entity
 public class CarroEntity {
