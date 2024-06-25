@@ -1,6 +1,7 @@
 package com.jvmaiaa.aluguelcarros.api.service.Impl;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
@@ -9,9 +10,12 @@ import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.exeption.ClienteNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper;
+import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 import static com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper.*;
 
@@ -23,20 +27,18 @@ import java.util.stream.Collectors;
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
-
     private final EnderecoRepository enderecoRepository;
 
-    private final ModelMapper modelMapper;
-
     @Override
+    @Transactional
     public ClienteResponseDTO cadastra(ClienteRequestDTO clienteRequest){
-        ClienteEntity clienteEntity = ClienteMapper.toAddressEntity(clienteRequest);
+        ClienteEntity clienteEntity = ClienteMapper.requestToEntity(clienteRequest);
         Long idEndereco = clienteRequest.getIdEndereco();
         EnderecoEntity endereco = enderecoRepository.findById(idEndereco)
                 .orElseThrow(() -> new EnderecoNotFoundException(idEndereco));
         clienteEntity.setEnderecoEntity(endereco);
         clienteRepository.save(clienteEntity);
-        return modelMapper.map(clienteEntity, ClienteResponseDTO.class);
+        return ClienteMapper.entityToResponse(clienteEntity);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class ClienteServiceImpl implements ClienteService {
                 .map(cliente -> ClienteResponseDTO.builder()
                         .id(cliente.getId())
                         .cpf(cliente.getCpf())
-                        .nome(cliente.getNome())
+                        .nomesUsuario(NomesUsuarioMapper.entityToResponse(cliente.getNomesUsuario()))
                         .idade(cliente.getIdade())
                         .numeroDeTelefone(cliente.getNumeroDeTelefone())
                         .email(cliente.getEmail())
@@ -60,39 +62,39 @@ public class ClienteServiceImpl implements ClienteService {
     public List<ClienteResponseDTO> listaClienteComEndereco() {
         return clienteRepository.findAll()
                 .stream()
-                .map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
+                .map(ClienteMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ClienteResponseDTO buscaClientePorId(Long id) {
-        ClienteEntity entity =  clienteRepository.findById(id)
+        ClienteEntity clienteEntity =  clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(id));
         return ClienteResponseDTO.builder()
-                .id(entity.getId())
-                .cpf(entity.getCpf())
-                .nome(entity.getNome())
-                .idade(entity.getIdade())
-                .numeroDeTelefone(entity.getNumeroDeTelefone())
-                .email(entity.getEmail())
-                .cnh(entity.getCnh())
-                .genero(entity.getGenero())
-                .observacao(entity.getObservacao()).build();
+                .id(clienteEntity.getId())
+                .cpf(clienteEntity.getCpf())
+                .nomesUsuario(NomesUsuarioMapper.entityToResponse(clienteEntity.getNomesUsuario()))
+                .idade(clienteEntity.getIdade())
+                .numeroDeTelefone(clienteEntity.getNumeroDeTelefone())
+                .email(clienteEntity.getEmail())
+                .cnh(clienteEntity.getCnh())
+                .genero(clienteEntity.getGenero())
+                .observacao(clienteEntity.getObservacao()).build();
     }
 
     @Override
     public ClienteResponseDTO buscaClienteComEnderecoPorId(Long id) {
         ClienteEntity clienteEntity = clienteRepository.findById(id).orElseThrow(
                 () -> new ClienteNotFoundException(id));
-        return modelMapper.map(clienteEntity, ClienteResponseDTO.class);
+        return ClienteMapper.entityToResponse(clienteEntity);
     }
 
     @Override
     public ClienteResponseDTO atualiza(Long id, ClienteRequestDTO dto){
         ClienteEntity entity = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(id));
-        atualizaCamposDaEntidade(entity, dto);
-        return modelMapper.map(entity, ClienteResponseDTO.class);
+        atualizaCampos(entity, dto);
+        return ClienteMapper.entityToResponse(entity);
     }
 
     @Override
@@ -101,5 +103,11 @@ public class ClienteServiceImpl implements ClienteService {
                 .orElseThrow( () -> new ClienteNotFoundException(id) ));
     }
 
+    public static void atualizaCampos(ClienteEntity entity, ClienteRequestDTO dto){
+        entity.setCpf(dto.getCpf() != null ? dto.getCpf() : entity.getCpf());
+        entity.setNomesUsuario(dto.getNomesUsuario() != null
+                ? NomesUsuarioMapper.requestToEntity(dto.getNomesUsuario())
+                : entity.getNomesUsuario());
+    }
 
 }

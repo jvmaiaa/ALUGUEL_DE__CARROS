@@ -12,7 +12,7 @@ public class ClienteRequestDTO {
     @NotNull(message = "Campo CPF não pode ser nulo")
     private String cpf;
 
-    private String nome;
+    private NomesUsuarioRequestDTO nomesUsuario;
 
     @NotNull(message = "O campo 'DATA DE NASCIMENTO' não pode ser nulo.")
     private Integer idade;

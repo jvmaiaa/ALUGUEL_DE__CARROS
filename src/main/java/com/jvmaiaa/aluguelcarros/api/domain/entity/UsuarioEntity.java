@@ -17,7 +17,13 @@ public class UsuarioEntity {
     @Column(unique = true)
     private String cpf;
 
-    private String nome;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "primeiroNome", column = @Column(name = "primeiro_nome")),
+            @AttributeOverride(name = "sobrenome", column = @Column(name = "sobrenome")),
+            @AttributeOverride(name = "apelido", column = @Column(name = "apelido"))
+    })
+    private NomesUsuarioEntity nomesUsuario;
 
     private Integer idade;
 

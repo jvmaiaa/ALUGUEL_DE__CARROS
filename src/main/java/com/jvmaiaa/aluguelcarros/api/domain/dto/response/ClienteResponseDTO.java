@@ -1,8 +1,7 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.request.EnderecoRequestDTO;
-import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,35 +11,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClienteResponseDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     private Long id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String cpf;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String nome;
+    private NomesUsuarioResponseDTO nomesUsuario;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer idade;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String numeroDeTelefone;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String email;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String cnh;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String genero;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String observacao;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private EnderecoResponseDTO endereco;
 }

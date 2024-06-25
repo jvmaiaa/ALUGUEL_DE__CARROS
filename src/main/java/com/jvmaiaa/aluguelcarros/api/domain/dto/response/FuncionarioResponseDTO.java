@@ -1,6 +1,7 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public class FuncionarioResponseDTO {
 
     private String cpf;
 
-    private String nome;
+    private NomesUsuarioResponseDTO nomesUsuario;
 
     private Integer idade;
 

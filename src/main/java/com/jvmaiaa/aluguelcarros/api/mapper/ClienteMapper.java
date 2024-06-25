@@ -1,50 +1,17 @@
 package com.jvmaiaa.aluguelcarros.api.mapper;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
-import lombok.RequiredArgsConstructor;
+import com.jvmaiaa.aluguelcarros.api.domain.entity.NomesUsuarioEntity;
 
-@RequiredArgsConstructor
 public class ClienteMapper {
 
-    private final ClienteRequestDTO clienteRequest;
-
-    private final ClienteEntity clienteEntity;
-
-    public static void atualizaCamposDaEntidade(ClienteEntity entity, ClienteRequestDTO dto){
-        if (dto.getCpf() != null){
-            entity.setCpf(dto.getCpf());
-        }
-        if (dto.getNome() != null){
-            entity.setNome(dto.getNome());
-        }
-        if (dto.getCnh() != null){
-            entity.setCnh(dto.getCnh());
-        }
-        if (dto.getIdade() != null){
-            entity.setIdade(dto.getIdade());
-        }
-        if(dto.getNumeroDeTelefone() != null){
-            entity.setNumeroDeTelefone(dto.getNumeroDeTelefone());
-        }
-        if (dto.getEmail() != null){
-            entity.setEmail(dto.getEmail());
-        }
-        if (dto.getCnh() != null){
-            entity.setCnh(dto.getCnh());
-        }
-        if (dto.getGenero() != null){
-            entity.setGenero(dto.getGenero());
-        }
-        if (dto.getObservacao() != null){
-            entity.setObservacao(dto.getObservacao());
-        }
-    }
-
-    public static ClienteEntity toAddressEntity(ClienteRequestDTO dto){
+    public static ClienteEntity requestToEntity(ClienteRequestDTO dto){
         ClienteEntity entity = new ClienteEntity();
         entity.setCpf(dto.getCpf());
-        entity.setNome(dto.getNome());
+        entity.setNomesUsuario(NomesUsuarioMapper.requestToEntity(dto.getNomesUsuario()));
         entity.setIdade(dto.getIdade());
         entity.setNumeroDeTelefone(dto.getNumeroDeTelefone());
         entity.setEmail(dto.getEmail());
@@ -52,6 +19,20 @@ public class ClienteMapper {
         entity.setGenero(dto.getGenero());
         entity.setObservacao(dto.getObservacao());
         return entity;
+    }
+
+    public static ClienteResponseDTO entityToResponse(ClienteEntity entity){
+        ClienteResponseDTO response = new ClienteResponseDTO();
+        response.setId(entity.getId());
+        response.setCpf(entity.getCpf());
+        response.setNomesUsuario(NomesUsuarioMapper.entityToResponse(entity.getNomesUsuario()));
+        response.setIdade(entity.getIdade());
+        response.setNumeroDeTelefone(entity.getNumeroDeTelefone());
+        response.setEmail(entity.getEmail());
+        response.setCnh(entity.getCnh());
+        response.setGenero(entity.getGenero());
+        response.setObservacao(entity.getObservacao());
+        return response;
     }
 
 }

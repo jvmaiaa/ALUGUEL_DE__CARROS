@@ -1,6 +1,5 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +10,7 @@ public class FuncionarioRequestDTO {
 
     private String cpf;
 
-    private String nome;
+    private NomesUsuarioRequestDTO nomesUsuario;
 
     private Integer idade;
 
@@ -22,7 +21,6 @@ public class FuncionarioRequestDTO {
     private BigDecimal salario;
 
     private String departamento;
-
 
     private LocalTime horaInicio;
 

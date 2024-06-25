@@ -20,11 +20,8 @@ import java.util.stream.Collectors;
 public class EnderecoServiceImpl implements EnderecoService {
 
     private final ModelMapper modelMapper;
-
     private final EnderecoRepository enderecoRepository;
-
     private final String VIA_CEP_URL = "https://viacep.com.br/ws/";
-
     private final RestTemplate restTemplate;
 
     @Override
