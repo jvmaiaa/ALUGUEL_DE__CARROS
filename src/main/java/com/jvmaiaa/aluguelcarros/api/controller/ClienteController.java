@@ -1,9 +1,9 @@
 package com.jvmaiaa.aluguelcarros.api.controller;
 
+import com.jvmaiaa.aluguelcarros.api.config.openapi.ClienteControllerOpenApi;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/cliente")
-public class ClienteController {
+public class ClienteController implements ClienteControllerOpenApi {
 
     private final ClienteService clienteService;
 

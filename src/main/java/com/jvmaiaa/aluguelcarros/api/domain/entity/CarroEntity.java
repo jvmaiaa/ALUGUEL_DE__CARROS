@@ -31,4 +31,8 @@ public class CarroEntity {
 
     @Enumerated(EnumType.STRING)
     private TipoDoMotor tipoDoMotor;
+
+    @ManyToOne
+    @JoinColumn(name = "locadora_id")
+    private LocadoraEntity locadora;
 }

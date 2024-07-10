@@ -1,5 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.controller;
 
+import com.jvmaiaa.aluguelcarros.api.config.openapi.FuncionarioControllerOpenApi;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.service.FuncionarioService;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/funcionario")
-public class FuncionarioController {
+public class FuncionarioController implements FuncionarioControllerOpenApi {
 
     private final FuncionarioService funcionarioService;
 
@@ -34,7 +35,7 @@ public class FuncionarioController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<FuncionarioResponseDTO> getFuncionario(){
+    public List<FuncionarioResponseDTO> getFuncionarios(){
         return funcionarioService.lista();
     }
 
