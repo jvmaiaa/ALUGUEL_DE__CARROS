@@ -1,11 +1,10 @@
-package com.jvmaiaa.aluguelcarros.api.exeption;
+package com.jvmaiaa.aluguelcarros.api.exception;
 
-import static org.springframework.http.HttpStatus.*;
-
-import org.hibernate.annotations.NotFound;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
@@ -31,6 +30,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(CarroNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handleCarroNotFoundException(CarroNotFoundException e){
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(LocadoraNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public String handleLocadoraNotFoundException(LocadoraNotFoundException e){
         return e.getMessage();
     }
 

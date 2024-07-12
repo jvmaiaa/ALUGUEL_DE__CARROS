@@ -4,12 +4,11 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.FuncionarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.FuncionarioRepository;
-import com.jvmaiaa.aluguelcarros.api.exeption.FuncionarioNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.FuncionarioNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.mapper.FuncionarioMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,6 +48,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new FuncionarioNotFoundException(id));
         atualizaCampos(entity, funcionarioRequestDTO);
+        funcionarioRepository.save(entity);
         return FuncionarioMapper.entityToResponse(entity);
     }
 

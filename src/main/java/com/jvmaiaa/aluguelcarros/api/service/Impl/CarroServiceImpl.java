@@ -4,7 +4,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.request.CarroRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.CarroResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.CarroEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.CarroRepository;
-import com.jvmaiaa.aluguelcarros.api.exeption.CarroNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.CarroNotFoundException;
 import static com.jvmaiaa.aluguelcarros.api.mapper.CarroMapper.*;
 import com.jvmaiaa.aluguelcarros.api.service.CarroService;
 import lombok.RequiredArgsConstructor;

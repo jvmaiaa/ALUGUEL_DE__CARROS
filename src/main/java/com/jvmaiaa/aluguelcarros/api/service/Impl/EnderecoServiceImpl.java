@@ -5,7 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ViaCepResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
-import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.EnderecoNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

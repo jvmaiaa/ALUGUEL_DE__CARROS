@@ -1,6 +1,4 @@
-package com.jvmaiaa.aluguelcarros.api.exeption;
-
-import org.hibernate.metamodel.spi.RuntimeModelCreationContext;
+package com.jvmaiaa.aluguelcarros.api.exception;
 
 public class FuncionarioNotFoundException extends RuntimeException {
 

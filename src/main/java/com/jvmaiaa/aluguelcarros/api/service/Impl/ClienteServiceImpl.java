@@ -1,23 +1,19 @@
 package com.jvmaiaa.aluguelcarros.api.service.Impl;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.ClienteRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
-import com.jvmaiaa.aluguelcarros.api.exeption.ClienteNotFoundException;
-import com.jvmaiaa.aluguelcarros.api.exeption.EnderecoNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.ClienteNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.EnderecoNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
-import static com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

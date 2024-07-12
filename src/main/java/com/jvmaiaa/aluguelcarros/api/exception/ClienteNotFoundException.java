@@ -1,4 +1,4 @@
-package com.jvmaiaa.aluguelcarros.api.exeption;
+package com.jvmaiaa.aluguelcarros.api.exception;
 
 public class ClienteNotFoundException extends RuntimeException{
 
