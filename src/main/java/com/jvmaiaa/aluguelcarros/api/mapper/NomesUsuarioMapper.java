@@ -7,6 +7,9 @@ import com.jvmaiaa.aluguelcarros.api.domain.entity.NomesUsuarioEntity;
 public class NomesUsuarioMapper {
 
     public static NomesUsuarioEntity requestToEntity(NomesUsuarioRequestDTO dto){
+        if (dto == null){
+            return null;
+        }
         NomesUsuarioEntity entity = new NomesUsuarioEntity();
         entity.setPrimeiroNome(dto.getPrimeiroNome());
         entity.setSobrenome(dto.getSobrenome());
@@ -15,6 +18,9 @@ public class NomesUsuarioMapper {
     }
 
     public static NomesUsuarioResponseDTO entityToResponse(NomesUsuarioEntity entity){
+        if (entity == null){
+            return null;
+        }
         NomesUsuarioResponseDTO response = new NomesUsuarioResponseDTO();
         response.setPrimeiroNome(entity.getPrimeiroNome());
         response.setSobrenome(entity.getSobrenome());

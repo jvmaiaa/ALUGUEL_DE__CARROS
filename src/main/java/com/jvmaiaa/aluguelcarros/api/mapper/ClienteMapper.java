@@ -1,14 +1,15 @@
 package com.jvmaiaa.aluguelcarros.api.mapper;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
-import com.jvmaiaa.aluguelcarros.api.domain.entity.NomesUsuarioEntity;
 
 public class ClienteMapper {
 
     public static ClienteEntity requestToEntity(ClienteRequestDTO dto){
+        if (dto == null){
+            return null;
+        }
         ClienteEntity entity = new ClienteEntity();
         entity.setCpf(dto.getCpf());
         entity.setNomesUsuario(NomesUsuarioMapper.requestToEntity(dto.getNomesUsuario()));
@@ -22,6 +23,9 @@ public class ClienteMapper {
     }
 
     public static ClienteResponseDTO entityToResponse(ClienteEntity entity){
+        if (entity == null){
+            return null;
+        }
         ClienteResponseDTO response = new ClienteResponseDTO();
         response.setId(entity.getId());
         response.setCpf(entity.getCpf());

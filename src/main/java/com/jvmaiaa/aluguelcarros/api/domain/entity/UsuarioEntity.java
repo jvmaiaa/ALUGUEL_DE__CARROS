@@ -1,11 +1,13 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_usuario")
 @Entity
 public class UsuarioEntity {

@@ -7,6 +7,9 @@ import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
 public class LocadoraMapper {
 
     public static LocadoraEntity requestToEntity(LocadoraRequestDTO requestDTO){
+        if (requestDTO == null){
+            return null;
+        }
         LocadoraEntity entity = new LocadoraEntity();
         entity.setNome(requestDTO.getNome());
         entity.setTelefone(requestDTO.getTelefone());
@@ -17,6 +20,9 @@ public class LocadoraMapper {
     }
 
     public static LocadoraResponseDTO entityToResponse(LocadoraEntity entity){
+        if (entity == null){
+            return null;
+        }
         LocadoraResponseDTO response = new LocadoraResponseDTO();
         response.setId(entity.getId());
         response.setNome(entity.getNome());
