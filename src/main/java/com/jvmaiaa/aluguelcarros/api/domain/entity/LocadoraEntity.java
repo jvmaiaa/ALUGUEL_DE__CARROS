@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,7 +32,13 @@ public class LocadoraEntity {
 
     private LocalTime horarioFechamento;
 
-    @OneToMany(mappedBy = "locadora")
-    private List<CarroEntity> carros;
+    @OneToMany(mappedBy = "locadora", fetch = FetchType.LAZY)
+    private List<FuncionarioEntity> funcionarios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "locadora", fetch = FetchType.LAZY)
+    private List<CarroEntity> carros = new ArrayList<>();
+
+    @OneToMany(mappedBy = "locadora", fetch = FetchType.LAZY)
+    private List<LocacaoEntity> locacoes = new ArrayList<>();
 
 }

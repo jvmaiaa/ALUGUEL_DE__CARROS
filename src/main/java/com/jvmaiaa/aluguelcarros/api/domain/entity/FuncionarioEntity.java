@@ -1,9 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,6 +28,10 @@ public final class FuncionarioEntity extends UsuarioEntity{
 
     @Column(name = "hora_fim")
     private LocalTime horaFim;
+
+    @ManyToOne
+    @JoinColumn(name = "locadora_id")
+    private LocadoraEntity locadora;
 
     @OneToMany(mappedBy = "funcionarioEntity")
     private List<LocacaoEntity> locacaoEntity = new ArrayList<>();

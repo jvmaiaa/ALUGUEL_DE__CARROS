@@ -17,7 +17,7 @@ public class LocadoraRequestDTO {
 
     private String nome;
 
-    @Pattern(regexp = "^9[0-9]{8}$")
+    @Pattern(regexp = "^9[0-9]{8}$", message = "O número de telefone deve conter o padrão: 9xxxxxxxx")
     private String telefone;
 
     @Email

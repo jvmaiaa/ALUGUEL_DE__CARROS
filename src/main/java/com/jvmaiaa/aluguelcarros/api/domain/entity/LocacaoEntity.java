@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@Table(name = "tb_pedido")
+@Table(name = "tb_locacao")
 @Entity
 public class LocacaoEntity {
 
@@ -24,18 +24,26 @@ public class LocacaoEntity {
     @Enumerated(EnumType.STRING)
     private FormaDePagamento formaDePagamento;
 
-//    @ManyToOne
-//    @JoinColumn(name = "cliente_id")
-//    private ClienteEntity cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "funcionario_id")
-    private FuncionarioEntity funcionarioEntity;
-
     private LocalDate dataInicialDoAluguel;
 
     private LocalDate dataFinalDoAluguel;
 
     private BigDecimal preco;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private ClienteEntity cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private FuncionarioEntity funcionarioEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "locadora_id")
+    private LocadoraEntity locadora;
+
+    @ManyToOne
+    @JoinColumn(name = "carro_id")
+    private CarroEntity carro;
 
 }
