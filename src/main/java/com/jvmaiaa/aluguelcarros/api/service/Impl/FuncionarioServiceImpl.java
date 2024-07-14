@@ -3,13 +3,17 @@ package com.jvmaiaa.aluguelcarros.api.service.Impl;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.FuncionarioEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.FuncionarioRepository;
+import com.jvmaiaa.aluguelcarros.api.domain.repository.LocadoraRepository;
 import com.jvmaiaa.aluguelcarros.api.exception.FuncionarioNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.LocadoraNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.mapper.FuncionarioMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,19 +23,31 @@ import java.util.stream.Collectors;
 public class FuncionarioServiceImpl implements FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
+    private final LocadoraRepository locadoraRepository;
 
     @Override
+    @Transactional
     public FuncionarioResponseDTO cadastra(FuncionarioRequestDTO funcionarioRequestDTO) {
         FuncionarioEntity entity = FuncionarioMapper.toFuncionarioEntity(funcionarioRequestDTO);
+        Long idLocadora = funcionarioRequestDTO.getIdLocadora();
+        LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
+                .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
+        entity.setLocadora(locadora);
         funcionarioRepository.save(entity);
-        return FuncionarioMapper.entityToResponse(entity);
+        FuncionarioResponseDTO funcionarioResponseDTO = FuncionarioMapper.entityToResponse(entity);
+        funcionarioResponseDTO.setIdLocadora(idLocadora);
+        return funcionarioResponseDTO;
     }
 
     @Override
     public List<FuncionarioResponseDTO> lista() {
         return funcionarioRepository.findAll()
                 .stream()
-                .map(FuncionarioMapper::entityToResponse)
+                .map(funcionario -> {
+                        FuncionarioResponseDTO response = FuncionarioMapper.entityToResponse(funcionario);
+                        response.setIdLocadora(funcionarioRepository.findIdByLocadora(response.getId()));
+                        return response;
+                })
                 .collect(Collectors.toList());
     }
 

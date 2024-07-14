@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.service.FuncionarioService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import static org.springframework.http.HttpStatus.*;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public FuncionarioResponseDTO cadastra(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO,
+    public FuncionarioResponseDTO cadastra(@RequestBody @Valid FuncionarioRequestDTO funcionarioRequestDTO,
                                            HttpServletResponse response){
         FuncionarioResponseDTO funcionarioResponse = funcionarioService.cadastra(funcionarioRequestDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()

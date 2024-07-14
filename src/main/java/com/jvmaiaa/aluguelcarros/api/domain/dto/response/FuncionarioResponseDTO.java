@@ -32,4 +32,5 @@ public class FuncionarioResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", locale = "pt-BR", timezone = "Brazil/East")
     private LocalTime horaFim;
 
+    private Long idLocadora;
 }
