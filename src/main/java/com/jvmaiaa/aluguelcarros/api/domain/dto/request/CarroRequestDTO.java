@@ -2,11 +2,13 @@ package com.jvmaiaa.aluguelcarros.api.domain.dto.request;
 
 import com.jvmaiaa.aluguelcarros.api.domain.enums.TipoDoMotor;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@Builder
 public class CarroRequestDTO {
 
     // 3 letras maiúsculas, 1 digito, 1 letra maiúscula ou minúscula, e 2 digitos -> ABC1D23
@@ -26,4 +28,5 @@ public class CarroRequestDTO {
 
     private TipoDoMotor tipoDoMotor;
 
+    private Long idLocadora;
 }

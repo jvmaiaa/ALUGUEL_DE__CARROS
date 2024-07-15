@@ -31,4 +31,6 @@ public class CarroResponseDTO {
     private BigDecimal taxaDiaria;
 
     private TipoDoMotor tipoDoMotor;
+
+    private Long idLocadora;
 }

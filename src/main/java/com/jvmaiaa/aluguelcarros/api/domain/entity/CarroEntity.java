@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,7 +34,12 @@ public class CarroEntity {
     @Enumerated(EnumType.STRING)
     private TipoDoMotor tipoDoMotor;
 
+    private Boolean disponivel;
+
     @ManyToOne
     @JoinColumn(name = "locadora_id")
     private LocadoraEntity locadora;
+
+    @OneToMany(mappedBy = "carro")
+    private List<LocacaoEntity> locacao = new ArrayList<>();
 }
