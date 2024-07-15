@@ -15,5 +15,5 @@ public interface FuncionarioRepository extends JpaRepository<FuncionarioEntity, 
             WHERE
                 id = :idFuncionario
             """)
-    Long findIdByLocadora(@Param("idFuncionario") Long idFuncionario);
+    Long findIdLocadoraByIdFuncionario(@Param("idFuncionario") Long idFuncionario);
 }

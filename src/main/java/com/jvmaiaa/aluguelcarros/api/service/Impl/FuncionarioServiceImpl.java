@@ -45,7 +45,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
                 .stream()
                 .map(funcionario -> {
                         FuncionarioResponseDTO response = FuncionarioMapper.entityToResponse(funcionario);
-                        response.setIdLocadora(funcionarioRepository.findIdByLocadora(response.getId()));
+                        response.setIdLocadora(funcionarioRepository.findIdLocadoraByIdFuncionario(response.getId()));
                         return response;
                 })
                 .collect(Collectors.toList());
@@ -55,7 +55,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public FuncionarioResponseDTO buscaId(Long id) {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new FuncionarioNotFoundException(id));
-        return FuncionarioMapper.entityToResponse(entity);
+        FuncionarioResponseDTO response = FuncionarioMapper.entityToResponse(entity);
+        response.setIdLocadora(funcionarioRepository.findIdLocadoraByIdFuncionario(id));
+        return response;
     }
 
     @Override
