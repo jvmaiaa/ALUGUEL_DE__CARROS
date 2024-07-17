@@ -28,4 +28,8 @@ public class CarroUpdateDTO {
     private BigDecimal taxaDiaria;
 
     private TipoDoMotor tipoDoMotor;
+
+    private Boolean disponivel;
+
+    private Long idLocadora;
 }

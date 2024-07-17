@@ -32,6 +32,7 @@ public class CarroMapper {
         response.setAnoDoCarro(entity.getAnoDoCarro());
         response.setTaxaDiaria(entity.getTaxaDiaria());
         response.setTipoDoMotor(entity.getTipoDoMotor());
+        response.setDisponivel(entity.getDisponivel());
         return response;
     }
 

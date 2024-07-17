@@ -37,6 +37,7 @@ public class CarroServiceImpl implements CarroService {
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
                 .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
         entity.setLocadora(locadora);
+        entity.setDisponivel(true);
         carroRepository.save(entity);
         CarroResponseDTO response = CarroMapper.entityToResponse(entity);
         response.setIdLocadora(idLocadora);

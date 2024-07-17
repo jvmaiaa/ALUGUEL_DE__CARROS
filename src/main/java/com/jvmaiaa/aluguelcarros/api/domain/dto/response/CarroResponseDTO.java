@@ -32,5 +32,7 @@ public class CarroResponseDTO {
 
     private TipoDoMotor tipoDoMotor;
 
+    private Boolean disponivel;
+
     private Long idLocadora;
 }
