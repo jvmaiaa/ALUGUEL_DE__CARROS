@@ -1,12 +1,17 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
 import com.jvmaiaa.aluguelcarros.api.domain.enums.FormaDePagamento;
+import com.jvmaiaa.aluguelcarros.api.mapper.LocacaoMapper;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,17 +23,21 @@ public class LocacaoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero_do_pedido")
-    private String numeroDoPedido;
+    @Column(name = "codigo_do_pedido")
+    private String codigoDoPedido;
 
     @Enumerated(EnumType.STRING)
     private FormaDePagamento formaDePagamento;
 
-    private LocalDate dataInicialDoAluguel;
+    private LocalDate dataInicioLocacao;
 
-    private LocalDate dataFinalDoAluguel;
+    private LocalDate dataFimLocacao;
 
-    private BigDecimal preco;
+    private BigDecimal valorFinal;
+
+    @CreatedDate
+    @Column(name = "data_criacao", updatable = false)
+    private LocalDateTime dataCriacao;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -46,4 +55,14 @@ public class LocacaoEntity {
     @JoinColumn(name = "carro_id")
     private CarroEntity carro;
 
+
+    @PrePersist
+    public void prePersist(){
+        if (this.codigoDoPedido == null){
+            this.codigoDoPedido = UUID.randomUUID().toString();
+        }
+        if (this.dataCriacao == null){
+            this.dataCriacao = LocalDateTime.now();
+        }
+    }
 }
