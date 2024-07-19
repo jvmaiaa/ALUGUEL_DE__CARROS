@@ -35,4 +35,8 @@ public final class FuncionarioEntity extends UsuarioEntity{
 
     @OneToMany(mappedBy = "funcionarioEntity")
     private List<LocacaoEntity> locacaoEntity = new ArrayList<>();
+
+    public void comissaoDeVenda(BigDecimal valorDoPedido){
+        this.salario = this.salario.add(valorDoPedido.multiply(BigDecimal.valueOf(0.1)));
+    }
 }
