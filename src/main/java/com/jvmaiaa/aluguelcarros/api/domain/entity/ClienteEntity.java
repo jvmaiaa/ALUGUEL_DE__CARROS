@@ -1,12 +1,11 @@
 package com.jvmaiaa.aluguelcarros.api.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,6 +24,6 @@ public final class ClienteEntity extends UsuarioEntity {
     @JoinColumn(name = "endereco_id")
     private EnderecoEntity enderecoEntity;
 
-//    @OneToMany(mappedBy = "cliente")
-//    private List<PedidoEntity> pedidoEntity;
+    @OneToMany(mappedBy = "cliente")
+    private List<LocacaoEntity> locacoes;
 }
