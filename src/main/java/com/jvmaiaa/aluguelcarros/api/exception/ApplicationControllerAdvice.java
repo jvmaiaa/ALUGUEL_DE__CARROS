@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
@@ -39,5 +40,15 @@ public class ApplicationControllerAdvice {
         return e.getMessage();
     }
 
+    @ExceptionHandler(DataInvalidaException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public String handleDataInvalidaException(DataInvalidaException e){
+        return e.getMessage();
+    }
 
+    @ExceptionHandler(LocacaoNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public String handleLocacaoNotFoundException(LocacaoNotFoundException e){
+        return e.getMessage();
+    }
 }
