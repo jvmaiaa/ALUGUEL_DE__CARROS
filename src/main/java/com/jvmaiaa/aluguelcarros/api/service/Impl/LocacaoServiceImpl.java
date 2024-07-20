@@ -31,6 +31,7 @@ public class LocacaoServiceImpl implements LocacaoService {
 
         verificaData(locacaoRequestDTO.getDataInicioLocacao(), locacaoRequestDTO.getDataFimLocacao());
 
+        // TODO : Criar método para realizar tudo de uma vez
         Long idCliente = locacaoRequestDTO.getIdCliente();
         Long idFuncionario = locacaoRequestDTO.getIdFuncionario();
         Long idLocadora = funcionarioRepository.findIdLocadoraByIdFuncionario(idFuncionario);
@@ -51,6 +52,7 @@ public class LocacaoServiceImpl implements LocacaoService {
         locacaoEntity.setLocadora(locadoraEntity);
         locacaoEntity.setCarro(carroEntity);
         locacaoRepository.save(locacaoEntity);
+        carroEntity.setDisponivel(false);
         locacaoEntity.getFuncionarioEntity().comissaoDeVenda(locacaoEntity.getValorFinal());
 
         LocacaoResponseDTO locacaoResponse = LocacaoMapper.entityToResponse(locacaoEntity);
@@ -63,6 +65,7 @@ public class LocacaoServiceImpl implements LocacaoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LocacaoResponseDTO> getLocacao() {
         return locacaoRepository.findAll()
                 .stream()
@@ -80,19 +83,21 @@ public class LocacaoServiceImpl implements LocacaoService {
 
     @Override
     public LocacaoResponseDTO getLocacaoPorId(Long id) {
-//        LocacaoEntity locacaoEntity = locacaoRepository.findById(id)
-//                .orElseThrow(() -> new LocacaoNo());
-        return null;
-    }
-
-    @Override
-    public LocacaoResponseDTO atualiza(Long id, LocacaoRequestDTO locacaoRequestDTO) {
-        return null;
+        LocacaoEntity locacaoEntity = locacaoRepository.findById(id)
+                .orElseThrow(() -> new LocacaoNotFoundException(id));
+        Long idFuncionario = locacaoEntity.getFuncionarioEntity().getId();
+        LocacaoResponseDTO locacaoResponseDTO = LocacaoMapper.entityToResponse(locacaoEntity);
+        locacaoResponseDTO.setIdCliente(locacaoEntity.getCliente().getId());
+        locacaoResponseDTO.setIdFuncionario(idFuncionario);
+        locacaoResponseDTO.setIdLocadora(funcionarioRepository.findIdLocadoraByIdFuncionario(idFuncionario));
+        locacaoResponseDTO.setIdCarro(locacaoEntity.getCarro().getId());
+        return locacaoResponseDTO;
     }
 
     @Override
     public void deleta(Long id) {
-
+        locacaoRepository.delete(locacaoRepository.findById(id)
+                .orElseThrow(() -> new LocacaoNotFoundException(id)));
     }
 
     private static void verificaData(LocalDate dataInicio, LocalDate dataFim){

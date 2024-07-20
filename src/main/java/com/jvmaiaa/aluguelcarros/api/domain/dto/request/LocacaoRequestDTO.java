@@ -1,8 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.request;
 
 import com.jvmaiaa.aluguelcarros.api.domain.enums.FormaDePagamento;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

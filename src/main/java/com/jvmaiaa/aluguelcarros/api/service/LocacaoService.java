@@ -13,7 +13,5 @@ public interface LocacaoService {
 
     LocacaoResponseDTO getLocacaoPorId(Long id);
 
-    LocacaoResponseDTO atualiza(Long id, LocacaoRequestDTO locacaoRequestDTO);
-
     void deleta(Long id);
 }

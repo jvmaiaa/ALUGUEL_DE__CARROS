@@ -41,19 +41,12 @@ public class LocacaoController {
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public LocacaoResponseDTO getLocacaoPorId(@PathVariable Long id){
-        return null;
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(OK)
-    public LocacaoResponseDTO atualiza(@PathVariable Long id,
-                                       @RequestBody LocacaoRequestDTO requestDTO){
-        return null;
+        return locacaoService.getLocacaoPorId(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id){
-
+        locacaoService.deleta(id);
     }
 }
