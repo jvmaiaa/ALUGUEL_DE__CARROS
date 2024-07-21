@@ -6,6 +6,9 @@ import com.jvmaiaa.aluguelcarros.api.service.LocadoraService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -14,6 +17,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/locadora")
 @RequiredArgsConstructor
@@ -37,6 +41,7 @@ public class LocadoraController {
     @GetMapping
     @ResponseStatus(OK)
     public List<LocadoraResponseDTO> lista() {
+        log.info("Consultando locadoras...");
         return locadoraService.lista();
     }
 

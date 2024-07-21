@@ -16,7 +16,8 @@ spring:
     password: ${DB_PASSWORD}
     url: ${DB_URL}
 
+  # Porta e prefixo da aplicação
 server:
+  #port: 8085
   servlet:
     context-path: /api
-  #port: 8085

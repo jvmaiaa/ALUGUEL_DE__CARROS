@@ -1,5 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -7,12 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@Slf4j
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
     @ExceptionHandler(EnderecoNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handleEnderecoNotFoundException(EnderecoNotFoundException e){
+        log.error("Exceção lançada devido endereço não ter sido encontrado!");
         return e.getMessage();
     }
 
@@ -37,6 +40,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(LocadoraNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handleLocadoraNotFoundException(LocadoraNotFoundException e){
+        log.error("Exceção lançada devido Locadora não ter sido encontrada!");
         return e.getMessage();
     }
 

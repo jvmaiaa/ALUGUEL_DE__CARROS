@@ -35,3 +35,6 @@ build/
 ### ENV ####
 .env.properties
 .venv.properties
+
+### Logging ###
+logback-spring.xml
