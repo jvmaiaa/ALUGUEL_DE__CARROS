@@ -13,7 +13,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-@Table(name = "tb_funcionario")
 @Entity
 public final class FuncionarioEntity extends UsuarioEntity{
 
