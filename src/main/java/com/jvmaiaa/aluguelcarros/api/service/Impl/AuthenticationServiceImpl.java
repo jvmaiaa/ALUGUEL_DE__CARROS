@@ -3,6 +3,7 @@ package com.jvmaiaa.aluguelcarros.api.service.Impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.AuthenticationRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.UsuarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
@@ -37,9 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     public String geraTokenJwt(UsuarioEntity usuario){
-
         try {
-
             Algorithm algorithm = Algorithm.HMAC256("my-secret");
 
             String token = JWT.create()
@@ -47,10 +46,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .withSubject(usuario.getUsername())
                     .withExpiresAt(gerarDataExpiracao())
                     .sign(algorithm);
-
             return token;
         } catch (JWTCreationException e) {
             throw new RuntimeException("Erro ao tentar gerar o token!" + e.getMessage());
+        }
+    }
+
+    public String validaTokenJwt(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("my-secret");
+
+            return JWT.require(algorithm)
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException e) {
+            return "";
         }
     }
 
