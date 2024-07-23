@@ -4,15 +4,19 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.request.ClienteRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.entity.UsuarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.ClienteRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
+import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
 import com.jvmaiaa.aluguelcarros.api.exception.ClienteNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.exception.EnderecoNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.UsuarioExistenteException;
 import com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +28,15 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder encoder;
 
     @Override
     @Transactional
     public ClienteResponseDTO cadastra(ClienteRequestDTO clienteRequest){
+        clienteExiste(clienteRequest);
+        String passwordHash = encoder.encode(clienteRequest.getPassword());
+        clienteRequest.setPassword(passwordHash);
         ClienteEntity clienteEntity = ClienteMapper.requestToEntity(clienteRequest);
         Long idEndereco = clienteRequest.getIdEndereco();
         EnderecoEntity endereco = enderecoRepository.findById(idEndereco)
@@ -36,6 +45,7 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.save(clienteEntity);
         return ClienteMapper.entityToResponse(clienteEntity);
     }
+
 
     @Override
     public List<ClienteResponseDTO> listaCliente() {
@@ -106,4 +116,10 @@ public class ClienteServiceImpl implements ClienteService {
                 : entity.getNomesUsuario());
     }
 
+    private void clienteExiste(ClienteRequestDTO clienteRequest) {
+        UsuarioEntity clienteJaExiste = usuarioRepository.findByEmail(clienteRequest.getEmail());
+        if (clienteJaExiste != null){
+            throw new UsuarioExistenteException("Esse e-mail já está cadastrado no sistema.");
+        }
+    }
 }

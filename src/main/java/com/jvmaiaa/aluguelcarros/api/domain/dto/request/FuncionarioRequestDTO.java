@@ -23,6 +23,8 @@ public class FuncionarioRequestDTO {
 
     private String email;
 
+    private String password;
+
     private BigDecimal salario;
 
     private String departamento;

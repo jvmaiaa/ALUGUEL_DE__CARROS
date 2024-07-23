@@ -16,6 +16,7 @@ public class FuncionarioMapper {
         entity.setIdade(dto.getIdade());
         entity.setNumeroDeTelefone(dto.getNumeroDeTelefone());
         entity.setEmail(dto.getEmail());
+        entity.setPassword(dto.getPassword());
         entity.setSalario(dto.getSalario());
         entity.setDepartamento(dto.getDepartamento());
         entity.setHoraInicio(dto.getHoraInicio());

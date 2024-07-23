@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -53,6 +52,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(LocacaoNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public String handleLocacaoNotFoundException(LocacaoNotFoundException e){
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UsuarioExistenteException.class)
+    @ResponseStatus(CONFLICT)
+    public String handleUsuarioExistenteException(UsuarioExistenteException e){
         return e.getMessage();
     }
 }

@@ -16,6 +16,7 @@ public class ClienteMapper {
         entity.setIdade(dto.getIdade());
         entity.setNumeroDeTelefone(dto.getNumeroDeTelefone());
         entity.setEmail(dto.getEmail());
+        entity.setPassword(dto.getPassword());
         entity.setCnh(dto.getCnh());
         entity.setGenero(dto.getGenero());
         entity.setObservacao(dto.getObservacao());

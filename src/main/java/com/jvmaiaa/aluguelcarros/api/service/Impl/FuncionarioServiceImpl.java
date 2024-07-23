@@ -4,14 +4,18 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.FuncionarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.entity.UsuarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.FuncionarioRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.LocadoraRepository;
+import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
 import com.jvmaiaa.aluguelcarros.api.exception.FuncionarioNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.exception.LocadoraNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.UsuarioExistenteException;
 import com.jvmaiaa.aluguelcarros.api.mapper.FuncionarioMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
 import com.jvmaiaa.aluguelcarros.api.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +28,15 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
     private final LocadoraRepository locadoraRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional
     public FuncionarioResponseDTO cadastra(FuncionarioRequestDTO funcionarioRequestDTO) {
+        funcionarioExiste(funcionarioRequestDTO);
+        String passwordHash = passwordEncoder.encode(funcionarioRequestDTO.getPassword());
+        funcionarioRequestDTO.setPassword(passwordHash);
         FuncionarioEntity entity = FuncionarioMapper.toFuncionarioEntity(funcionarioRequestDTO);
         Long idLocadora = funcionarioRequestDTO.getIdLocadora();
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
@@ -38,6 +47,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         funcionarioResponseDTO.setIdLocadora(idLocadora);
         return funcionarioResponseDTO;
     }
+
 
     @Override
     public List<FuncionarioResponseDTO> lista() {
@@ -88,5 +98,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         entity.setDepartamento(dto.getDepartamento() != null ? dto.getDepartamento() : entity.getDepartamento());
         entity.setHoraInicio(dto.getHoraInicio() != null ? dto.getHoraInicio() : entity.getHoraInicio());
         entity.setHoraFim(dto.getHoraFim() != null ? dto.getHoraFim() : entity.getHoraFim());
+    }
+
+    private void funcionarioExiste(FuncionarioRequestDTO funcionarioRequestDTO) {
+        UsuarioEntity clienteJaExiste = usuarioRepository.findByEmail(funcionarioRequestDTO.getEmail());
+        if (clienteJaExiste != null) {
+            throw new UsuarioExistenteException("Esse e-mail já está cadastrado no sistema.");
+        }
     }
 }

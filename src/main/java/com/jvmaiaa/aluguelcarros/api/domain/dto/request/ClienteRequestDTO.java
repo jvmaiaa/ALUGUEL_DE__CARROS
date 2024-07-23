@@ -23,6 +23,8 @@ public class ClienteRequestDTO {
     @Email(message = "E-mail inválido. Realize a verificação.")
     private String email;
 
+    private String password;
+
     @Size(min = 11, max = 11, message = "O número da CNH deve conter 11 caracteres")
     @Pattern(regexp = "[0-9]+", message = "O número da CNH deve conter apenas números")
     private String cnh;
