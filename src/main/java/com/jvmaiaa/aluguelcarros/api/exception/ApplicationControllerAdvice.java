@@ -60,4 +60,10 @@ public class ApplicationControllerAdvice {
     public String handleUsuarioExistenteException(UsuarioExistenteException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    public String handleUnauthorizedException(UnauthorizedException e){
+        return e.getMessage();
+    }
 }
