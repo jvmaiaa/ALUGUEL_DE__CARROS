@@ -24,8 +24,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UsuarioRepository usuarioRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(login);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private Instant gerarDataExpiracao() {
         return LocalDateTime.now()
-                .plusMinutes(3)
+                .plusMinutes(60)
                 .toInstant(ZoneOffset.of("-03:00"));
     }
 

@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ClienteResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.ClienteEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.UsuarioEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.enums.RoleEnum;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.ClienteRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
@@ -35,9 +36,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public ClienteResponseDTO cadastra(ClienteRequestDTO clienteRequest){
         clienteExiste(clienteRequest);
-        String passwordHash = encoder.encode(clienteRequest.getPassword());
+        var passwordHash = encoder.encode(clienteRequest.getPassword());
         clienteRequest.setPassword(passwordHash);
         ClienteEntity clienteEntity = ClienteMapper.requestToEntity(clienteRequest);
+        clienteEntity.setRole(RoleEnum.USER);
         Long idEndereco = clienteRequest.getIdEndereco();
         EnderecoEntity endereco = enderecoRepository.findById(idEndereco)
                 .orElseThrow(() -> new EnderecoNotFoundException(idEndereco));

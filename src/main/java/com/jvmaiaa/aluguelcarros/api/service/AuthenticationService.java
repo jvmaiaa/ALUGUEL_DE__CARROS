@@ -6,4 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface AuthenticationService extends UserDetailsService {
 
     String obterToken(AuthenticationRequestDTO dto);
+
+    String validaTokenJwt(String token);
 }

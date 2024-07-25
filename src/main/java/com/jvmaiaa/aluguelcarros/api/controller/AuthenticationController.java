@@ -22,7 +22,7 @@ public class AuthenticationController {
     public String auth(@RequestBody AuthenticationRequestDTO dto){
 
         var usuarioAutenticationToken =
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha());
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 
         authenticationManager.authenticate(usuarioAutenticationToken);
 
