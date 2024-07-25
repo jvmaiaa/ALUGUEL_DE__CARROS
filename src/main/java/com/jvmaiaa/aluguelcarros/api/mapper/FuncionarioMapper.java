@@ -35,6 +35,7 @@ public class FuncionarioMapper {
         response.setIdade(entity.getIdade());
         response.setNumeroDeTelefone(entity.getNumeroDeTelefone());
         response.setEmail(entity.getEmail());
+        response.setRole(entity.getRole());
         response.setSalario(entity.getSalario());
         response.setDepartamento(entity.getDepartamento());
         response.setHoraInicio(entity.getHoraInicio());

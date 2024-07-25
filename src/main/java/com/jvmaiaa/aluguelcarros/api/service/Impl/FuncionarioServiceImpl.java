@@ -5,6 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.FuncionarioEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.UsuarioEntity;
+import com.jvmaiaa.aluguelcarros.api.domain.enums.RoleEnum;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.FuncionarioRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.LocadoraRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
@@ -35,9 +36,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Transactional
     public FuncionarioResponseDTO cadastra(FuncionarioRequestDTO funcionarioRequestDTO) {
         funcionarioExiste(funcionarioRequestDTO);
-        String passwordHash = passwordEncoder.encode(funcionarioRequestDTO.getPassword());
+        var passwordHash = passwordEncoder.encode(funcionarioRequestDTO.getPassword());
         funcionarioRequestDTO.setPassword(passwordHash);
         FuncionarioEntity entity = FuncionarioMapper.toFuncionarioEntity(funcionarioRequestDTO);
+        entity.setRole(RoleEnum.ADMIN);
         Long idLocadora = funcionarioRequestDTO.getIdLocadora();
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
                 .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));

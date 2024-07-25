@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tb_usuario")
 @Entity
 public class UsuarioEntity implements UserDetails {
 
@@ -44,6 +45,7 @@ public class UsuarioEntity implements UserDetails {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
 

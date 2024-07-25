@@ -1,7 +1,7 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
+import com.jvmaiaa.aluguelcarros.api.domain.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +26,8 @@ public class ClienteResponseDTO {
     private String numeroDeTelefone;
 
     private String email;
+
+    private RoleEnum role;
 
     private String cnh;
 

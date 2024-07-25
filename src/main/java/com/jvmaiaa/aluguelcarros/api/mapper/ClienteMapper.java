@@ -34,6 +34,7 @@ public class ClienteMapper {
         response.setIdade(entity.getIdade());
         response.setNumeroDeTelefone(entity.getNumeroDeTelefone());
         response.setEmail(entity.getEmail());
+        response.setRole(entity.getRole());
         response.setCnh(entity.getCnh());
         response.setGenero(entity.getGenero());
         response.setObservacao(entity.getObservacao());
