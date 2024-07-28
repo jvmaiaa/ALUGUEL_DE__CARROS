@@ -7,6 +7,7 @@ import com.jvmaiaa.aluguelcarros.api.service.ClienteService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,30 +36,35 @@ public class ClienteController implements ClienteControllerOpenApi {
         return clienteResponse;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     @ResponseStatus(OK)
     public List<ClienteResponseDTO> getClientes(){
         return clienteService.listaCliente();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/endereco")
     @ResponseStatus(OK)
     public List<ClienteResponseDTO> getClientesComEndereco(){
         return clienteService.listaClienteComEndereco();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO getClientePorId(@Valid @PathVariable("id") Long id){
         return clienteService.buscaClientePorId(id);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/endereco/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO getClienteComEnderecoPorId(@Valid @PathVariable("id") Long id){
         return clienteService.buscaClienteComEnderecoPorId(id);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO atualizaCliente(@Valid @PathVariable("id") Long id,
@@ -66,6 +72,7 @@ public class ClienteController implements ClienteControllerOpenApi {
         return clienteService.atualiza(id, dto);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable("id") Long id){

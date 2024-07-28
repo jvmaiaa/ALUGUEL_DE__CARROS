@@ -7,6 +7,7 @@ import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,18 +36,21 @@ public class EnderecoController implements EnderecoControllerOpenApi {
         return enderecoResponse;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     @ResponseStatus(OK)
     public List<EnderecoResponseDTO> getEnderecos(){
         return enderecoService.lista();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO getEnderecoById(@PathVariable Long id){
         return enderecoService.buscaId(id);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO atualiza(@PathVariable("id") Long id,
@@ -54,6 +58,7 @@ public class EnderecoController implements EnderecoControllerOpenApi {
         return enderecoService.atualiza(id, request);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable("id") Long id){

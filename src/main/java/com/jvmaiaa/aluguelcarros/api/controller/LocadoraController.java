@@ -7,8 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,6 +37,7 @@ public class LocadoraController {
         return locadora;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @ResponseStatus(OK)
     public List<LocadoraResponseDTO> lista() {
@@ -45,12 +45,14 @@ public class LocadoraController {
         return locadoraService.lista();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public LocadoraResponseDTO buscaId(@PathVariable Long id) {
         return locadoraService.buscaId(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public LocadoraResponseDTO atualiza(@PathVariable Long id,
@@ -58,6 +60,7 @@ public class LocadoraController {
         return locadoraService.atualiza(id, locadoraRequestDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id) {

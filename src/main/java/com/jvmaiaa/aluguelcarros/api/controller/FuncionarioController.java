@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import static org.springframework.http.HttpStatus.*;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,18 +36,21 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
         return funcionarioResponse;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     @ResponseStatus(OK)
     public List<FuncionarioResponseDTO> getFuncionarios(){
         return funcionarioService.lista();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public FuncionarioResponseDTO getFuncionarioPorId(@PathVariable Long id){
         return funcionarioService.buscaId(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public FuncionarioResponseDTO atualizaFuncionario(@PathVariable Long id,
@@ -53,6 +58,7 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
         return funcionarioService.atualiza(id, requestDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id){
