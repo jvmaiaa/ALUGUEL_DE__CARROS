@@ -2,7 +2,6 @@ package com.jvmaiaa.aluguelcarros.api.service;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.FuncionarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.FuncionarioResponseDTO;
-import org.hibernate.validator.internal.engine.PredefinedScopeConfigurationImpl;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.jvmaiaa.aluguelcarros.api.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.request.NomesUsuarioRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.enums.RoleEnum;
 import lombok.Data;
 

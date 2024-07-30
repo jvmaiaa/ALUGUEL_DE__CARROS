@@ -2,7 +2,6 @@ package com.jvmaiaa.aluguelcarros.api.service.Impl;
 
 import com.jvmaiaa.aluguelcarros.api.domain.dto.request.CarroRequestDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.CarroResponseDTO;
-import com.jvmaiaa.aluguelcarros.api.domain.dto.response.LocadoraResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.CarroEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.CarroRepository;

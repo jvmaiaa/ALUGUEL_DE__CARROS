@@ -3,7 +3,6 @@ package com.jvmaiaa.aluguelcarros.api.domain.dto.request;
 import com.jvmaiaa.aluguelcarros.api.domain.enums.TipoDoMotor;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
