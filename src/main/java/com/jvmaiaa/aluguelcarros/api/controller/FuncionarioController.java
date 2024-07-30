@@ -36,21 +36,21 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
         return funcionarioResponse;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<FuncionarioResponseDTO> getFuncionarios(){
         return funcionarioService.lista();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public FuncionarioResponseDTO getFuncionarioPorId(@PathVariable Long id){
         return funcionarioService.buscaId(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public FuncionarioResponseDTO atualizaFuncionario(@PathVariable Long id,
@@ -58,7 +58,7 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
         return funcionarioService.atualiza(id, requestDTO);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id){

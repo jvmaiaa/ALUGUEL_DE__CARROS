@@ -21,7 +21,7 @@ public class LocacaoController {
 
     private final LocacaoService locacaoService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @PostMapping
     @ResponseStatus(CREATED)
     public LocacaoResponseDTO cadastra(@RequestBody LocacaoRequestDTO locacaoRequestDTO,
@@ -35,21 +35,21 @@ public class LocacaoController {
         return locacao;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<LocacaoResponseDTO> lista(){
         return locacaoService.getLocacao();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public LocacaoResponseDTO getLocacaoPorId(@PathVariable Long id){
         return locacaoService.getLocacaoPorId(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id){

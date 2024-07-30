@@ -51,13 +51,13 @@ public class UsuarioEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == RoleEnum.ADMIN){
+        if (this.role == RoleEnum.FUNCIONARIO){
             return List.of(
-                new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_USER")
+                new SimpleGrantedAuthority("ROLE_FUNCIONARIO"),
+                new SimpleGrantedAuthority("ROLE_CLIENTE")
             );
         }
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));
     }
 
     @Override

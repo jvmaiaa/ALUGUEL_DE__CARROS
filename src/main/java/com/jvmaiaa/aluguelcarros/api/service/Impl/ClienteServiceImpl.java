@@ -39,7 +39,7 @@ public class ClienteServiceImpl implements ClienteService {
         var passwordHash = encoder.encode(clienteRequest.getPassword());
         clienteRequest.setPassword(passwordHash);
         ClienteEntity clienteEntity = ClienteMapper.requestToEntity(clienteRequest);
-        clienteEntity.setRole(RoleEnum.USER);
+        clienteEntity.setRole(RoleEnum.CLIENTE);
         Long idEndereco = clienteRequest.getIdEndereco();
         EnderecoEntity endereco = enderecoRepository.findById(idEndereco)
                 .orElseThrow(() -> new EnderecoNotFoundException(idEndereco));

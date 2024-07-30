@@ -37,7 +37,7 @@ public class LocadoraController {
         return locadora;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<LocadoraResponseDTO> lista() {
@@ -45,14 +45,14 @@ public class LocadoraController {
         return locadoraService.lista();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public LocadoraResponseDTO buscaId(@PathVariable Long id) {
         return locadoraService.buscaId(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public LocadoraResponseDTO atualiza(@PathVariable Long id,
@@ -60,7 +60,7 @@ public class LocadoraController {
         return locadoraService.atualiza(id, locadoraRequestDTO);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id) {

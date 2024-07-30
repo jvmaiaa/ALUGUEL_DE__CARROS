@@ -36,35 +36,35 @@ public class ClienteController implements ClienteControllerOpenApi {
         return clienteResponse;
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<ClienteResponseDTO> getClientes(){
         return clienteService.listaCliente();
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping("/endereco")
     @ResponseStatus(OK)
     public List<ClienteResponseDTO> getClientesComEndereco(){
         return clienteService.listaClienteComEndereco();
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO getClientePorId(@Valid @PathVariable("id") Long id){
         return clienteService.buscaClientePorId(id);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping("/endereco/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO getClienteComEnderecoPorId(@Valid @PathVariable("id") Long id){
         return clienteService.buscaClienteComEnderecoPorId(id);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public ClienteResponseDTO atualizaCliente(@Valid @PathVariable("id") Long id,
@@ -72,7 +72,7 @@ public class ClienteController implements ClienteControllerOpenApi {
         return clienteService.atualiza(id, dto);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable("id") Long id){

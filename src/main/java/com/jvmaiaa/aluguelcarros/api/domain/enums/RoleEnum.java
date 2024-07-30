@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum RoleEnum {
 
-    ADMIN("admin"),
-    USER("user");
+    FUNCIONARIO("funcionario"),
+    CLIENTE("cliente");
 
     private String role;
 

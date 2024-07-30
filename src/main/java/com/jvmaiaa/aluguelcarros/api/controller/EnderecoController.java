@@ -36,21 +36,21 @@ public class EnderecoController implements EnderecoControllerOpenApi {
         return enderecoResponse;
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<EnderecoResponseDTO> getEnderecos(){
         return enderecoService.lista();
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO getEnderecoById(@PathVariable Long id){
         return enderecoService.buscaId(id);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public EnderecoResponseDTO atualiza(@PathVariable("id") Long id,
@@ -58,7 +58,7 @@ public class EnderecoController implements EnderecoControllerOpenApi {
         return enderecoService.atualiza(id, request);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable("id") Long id){

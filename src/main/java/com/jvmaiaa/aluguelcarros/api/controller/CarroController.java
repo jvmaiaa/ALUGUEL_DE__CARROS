@@ -24,7 +24,7 @@ public class CarroController implements CarroControllerOpenApi {
 
     private final CarroService carroService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @PostMapping
     @ResponseStatus(CREATED)
     public CarroResponseDTO cadastra(@Parameter(description = "cadastrar Carro")
@@ -39,28 +39,28 @@ public class CarroController implements CarroControllerOpenApi {
         return carroResponse;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping
     @ResponseStatus(OK)
     public List<CarroResponseDTO> getCarros() {
         return carroService.lista();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public CarroResponseDTO getCarroPorId(@PathVariable Long id) {
         return carroService.buscaId(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @PutMapping("/{id}")
     @ResponseStatus(OK)
     public CarroResponseDTO atualiza(@PathVariable Long id, @RequestBody CarroRequestDTO dto) {
         return carroService.atualiza(id, dto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('FUNCIONARIO')")
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void deleta(@PathVariable Long id) {

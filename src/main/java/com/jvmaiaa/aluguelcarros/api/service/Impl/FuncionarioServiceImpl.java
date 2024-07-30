@@ -39,7 +39,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         var passwordHash = passwordEncoder.encode(funcionarioRequestDTO.getPassword());
         funcionarioRequestDTO.setPassword(passwordHash);
         FuncionarioEntity entity = FuncionarioMapper.toFuncionarioEntity(funcionarioRequestDTO);
-        entity.setRole(RoleEnum.ADMIN);
+        entity.setRole(RoleEnum.FUNCIONARIO);
         Long idLocadora = funcionarioRequestDTO.getIdLocadora();
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
                 .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
