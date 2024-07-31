@@ -19,7 +19,7 @@ public class SpringDocConfig {
                 .info(new Info()
                         .title("Api de Locação de carros")
                         .version("v1")
-                        .description("Api que busca realizar a gestão de um locadora, tal como seus veículos, funcionários, clientes e pedidos.")
+                        .description("Api que busca realizar a gestão de um locadora, tal como seus veículos, funcionários, clientes e locações.")
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("https://springdoc.org")
