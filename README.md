@@ -63,7 +63,7 @@ git clone https://github.com/jvmaiaa/APLICACAO_IBGE.git
 execute a aplicação que está dentro de src/java/com/jvmaiaa/aluguelcarros/CarRentalApplication.java
 ```
 ## Ordem de cadastro de entidades
-**OBS**: Coloquei um prefixo no meu arquivo `application.yml` que toda rota do meu projeto, irá ter `/api`, fiquei ATENTO. utilizei a configuração:
+**OBS**: Coloquei um prefixo no meu arquivo `application.yml` que toda rota do meu projeto, irá conter `/api` no início, **FIQUE ATENTO**. utilizei a configuração:
 ```
 server:
   servlet:
