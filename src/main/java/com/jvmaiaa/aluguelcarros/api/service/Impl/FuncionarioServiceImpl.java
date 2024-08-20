@@ -10,8 +10,6 @@ import com.jvmaiaa.aluguelcarros.api.domain.repository.FuncionarioRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.LocadoraRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
 import com.jvmaiaa.aluguelcarros.api.exception.EntityNotFoundException;
-import com.jvmaiaa.aluguelcarros.api.exception.FuncionarioNotFoundException;
-import com.jvmaiaa.aluguelcarros.api.exception.LocadoraNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.exception.UsuarioExistenteException;
 import com.jvmaiaa.aluguelcarros.api.mapper.FuncionarioMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
@@ -24,11 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.FUNCIONARIO_NAO_ENCONTRADO;
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.LOCADORA_NAO_ENCONTRADA;
+
 @RequiredArgsConstructor
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService {
-
-    private static final String FUNCIONARIO_NAO_ENCONTRADO = "O funcionário com id %d não foi encontrado!";
 
     private final FuncionarioRepository funcionarioRepository;
     private final LocadoraRepository locadoraRepository;
@@ -45,7 +44,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         entity.setRole(RoleEnum.FUNCIONARIO);
         Long idLocadora = funcionarioRequestDTO.getIdLocadora();
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
-                .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(LOCADORA_NAO_ENCONTRADA, idLocadora)));
         entity.setLocadora(locadora);
         funcionarioRepository.save(entity);
         FuncionarioResponseDTO funcionarioResponseDTO = FuncionarioMapper.entityToResponse(entity);
@@ -69,7 +68,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public FuncionarioResponseDTO buscaId(Long id) {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(FUNCIONARIO_NAO_ENCONTRADO + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(FUNCIONARIO_NAO_ENCONTRADO, id)));
         FuncionarioResponseDTO response = FuncionarioMapper.entityToResponse(entity);
         response.setIdLocadora(funcionarioRepository.findIdLocadoraByIdFuncionario(id));
         return response;
@@ -79,7 +78,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public FuncionarioResponseDTO atualiza(Long id,
                                            FuncionarioRequestDTO funcionarioRequestDTO) {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(FUNCIONARIO_NAO_ENCONTRADO + id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(FUNCIONARIO_NAO_ENCONTRADO, id)));
         atualizaCampos(entity, funcionarioRequestDTO);
         funcionarioRepository.save(entity);
         return FuncionarioMapper.entityToResponse(entity);
@@ -88,7 +87,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public void deleta(Long id) {
         funcionarioRepository.delete(funcionarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(FUNCIONARIO_NAO_ENCONTRADO + id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(FUNCIONARIO_NAO_ENCONTRADO, id))));
     }
 
     public static void atualizaCampos(FuncionarioEntity entity, FuncionarioRequestDTO dto){

@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.*;
+
 @RequiredArgsConstructor
 @Service
 public class LocacaoServiceImpl implements LocacaoService {
@@ -34,17 +36,15 @@ public class LocacaoServiceImpl implements LocacaoService {
         // TODO : Criar método para realizar tudo de uma vez
         Long idCliente = locacaoRequestDTO.getIdCliente();
         Long idFuncionario = locacaoRequestDTO.getIdFuncionario();
-        Long idLocadora = funcionarioRepository.findIdLocadoraByIdFuncionario(idFuncionario);
         Long idCarro = locacaoRequestDTO.getIdCarro();
 
         ClienteEntity clienteEntity = clienteRepository.findById(idCliente)
-                .orElseThrow(() -> new ClienteNotFoundException(idCliente));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, idCliente)));
         FuncionarioEntity funcionarioEntity = funcionarioRepository.findById(idFuncionario)
-                .orElseThrow(() -> new FuncionarioNotFoundException(idFuncionario));
-        LocadoraEntity locadoraEntity = locadoraRepository.findById(idLocadora)
-                .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(FUNCIONARIO_NAO_ENCONTRADO, idFuncionario)));
+        LocadoraEntity locadoraEntity = carroRepository.findLocadoraByIdCarro(idCarro);
         CarroEntity carroEntity = carroRepository.findById(idCarro)
-                .orElseThrow(() -> new CarroNotFoundException(idCarro));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CARRO_NAO_ENCONTRADO, idCarro)));
 
         LocacaoEntity locacaoEntity = LocacaoMapper.requestToEntity(locacaoRequestDTO);
         locacaoEntity.setCliente(clienteEntity);
@@ -58,7 +58,7 @@ public class LocacaoServiceImpl implements LocacaoService {
         LocacaoResponseDTO locacaoResponse = LocacaoMapper.entityToResponse(locacaoEntity);
         locacaoResponse.setIdCliente(idCliente);
         locacaoResponse.setIdFuncionario(idFuncionario);
-        locacaoResponse.setIdLocadora(idLocadora);
+        locacaoResponse.setIdLocadora(locadoraEntity.getId());
         locacaoResponse.setIdCarro(idCarro);
 
         return locacaoResponse;
@@ -84,7 +84,7 @@ public class LocacaoServiceImpl implements LocacaoService {
     @Override
     public LocacaoResponseDTO getLocacaoPorId(Long id) {
         LocacaoEntity locacaoEntity = locacaoRepository.findById(id)
-                .orElseThrow(() -> new LocacaoNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(LOCACAO_NAO_ENCONTRADA, id)));
         Long idFuncionario = locacaoEntity.getFuncionarioEntity().getId();
         LocacaoResponseDTO locacaoResponseDTO = LocacaoMapper.entityToResponse(locacaoEntity);
         locacaoResponseDTO.setIdCliente(locacaoEntity.getCliente().getId());
@@ -97,7 +97,7 @@ public class LocacaoServiceImpl implements LocacaoService {
     @Override
     public void deleta(Long id) {
         locacaoRepository.delete(locacaoRepository.findById(id)
-                .orElseThrow(() -> new LocacaoNotFoundException(id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(LOCACAO_NAO_ENCONTRADA, id))));
     }
 
     private static void verificaData(LocalDate dataInicio, LocalDate dataFim){

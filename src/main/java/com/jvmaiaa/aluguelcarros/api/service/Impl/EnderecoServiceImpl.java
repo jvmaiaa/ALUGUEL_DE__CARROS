@@ -5,7 +5,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.dto.response.EnderecoResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.dto.response.ViaCepResponseDTO;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.EnderecoEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
-import com.jvmaiaa.aluguelcarros.api.exception.EnderecoNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.EntityNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.service.EnderecoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -14,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.ENDERECO_NAO_ENCONTRADO;
 
 @RequiredArgsConstructor
 @Service
@@ -43,14 +45,14 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Override
     public EnderecoResponseDTO buscaId(Long id){
         EnderecoEntity enderecoEntity = enderecoRepository.findById(id).orElseThrow(
-                () -> new EnderecoNotFoundException(id));
+                () -> new EntityNotFoundException(String.format(ENDERECO_NAO_ENCONTRADO, id)));
         return modelMapper.map(enderecoEntity, EnderecoResponseDTO.class);
     }
 
     @Override
     public EnderecoResponseDTO atualiza(Long id, EnderecoRequestDTO dto){
         EnderecoEntity entity = enderecoRepository.findById(id).orElseThrow(
-                () -> new EnderecoNotFoundException(id));
+                () -> new EntityNotFoundException(String.format(ENDERECO_NAO_ENCONTRADO, id)));
         atualizaCamposEndereco(entity, dto);
         enderecoRepository.save(entity);
         return modelMapper.map(entity, EnderecoResponseDTO.class);
@@ -59,7 +61,7 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Override
     public void deleta(Long id){
         enderecoRepository.delete(enderecoRepository.findById(id).orElseThrow(
-                () -> new EnderecoNotFoundException(id)));
+                () -> new EntityNotFoundException(String.format(ENDERECO_NAO_ENCONTRADO, id))));
     }
 
     private void atualizaCamposEndereco(EnderecoEntity entity, EnderecoRequestDTO dto){

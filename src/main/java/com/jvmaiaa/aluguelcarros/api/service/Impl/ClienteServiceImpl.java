@@ -9,8 +9,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.enums.RoleEnum;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.ClienteRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.EnderecoRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.UsuarioRepository;
-import com.jvmaiaa.aluguelcarros.api.exception.ClienteNotFoundException;
-import com.jvmaiaa.aluguelcarros.api.exception.EnderecoNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.EntityNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.exception.UsuarioExistenteException;
 import com.jvmaiaa.aluguelcarros.api.mapper.ClienteMapper;
 import com.jvmaiaa.aluguelcarros.api.mapper.NomesUsuarioMapper;
@@ -22,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.*;
 
 @RequiredArgsConstructor
 @Service
@@ -42,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService {
         clienteEntity.setRole(RoleEnum.CLIENTE);
         Long idEndereco = clienteRequest.getIdEndereco();
         EnderecoEntity endereco = enderecoRepository.findById(idEndereco)
-                .orElseThrow(() -> new EnderecoNotFoundException(idEndereco));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, idEndereco)));
         clienteEntity.setEnderecoEntity(endereco);
         clienteRepository.save(clienteEntity);
         return ClienteMapper.entityToResponse(clienteEntity);
@@ -77,7 +78,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteResponseDTO buscaClientePorId(Long id) {
         ClienteEntity clienteEntity =  clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, id)));
         return ClienteResponseDTO.builder()
                 .id(clienteEntity.getId())
                 .cpf(clienteEntity.getCpf())
@@ -93,14 +94,14 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteResponseDTO buscaClienteComEnderecoPorId(Long id) {
         ClienteEntity clienteEntity = clienteRepository.findById(id).orElseThrow(
-                () -> new ClienteNotFoundException(id));
+                () -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, id)));
         return ClienteMapper.entityToResponse(clienteEntity);
     }
 
     @Override
     public ClienteResponseDTO atualiza(Long id, ClienteRequestDTO dto){
         ClienteEntity entity = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, id)));
         atualizaCampos(entity, dto);
         return ClienteMapper.entityToResponse(entity);
     }
@@ -108,7 +109,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void deleta(Long id){
         clienteRepository.delete(clienteRepository.findById(id)
-                .orElseThrow( () -> new ClienteNotFoundException(id) ));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CLIENTE_NAO_ENCONTRADO, id))));
     }
 
     public static void atualizaCampos(ClienteEntity entity, ClienteRequestDTO dto){

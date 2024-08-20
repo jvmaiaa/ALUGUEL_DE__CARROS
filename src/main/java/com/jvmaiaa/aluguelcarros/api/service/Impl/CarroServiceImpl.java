@@ -6,10 +6,7 @@ import com.jvmaiaa.aluguelcarros.api.domain.entity.CarroEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.entity.LocadoraEntity;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.CarroRepository;
 import com.jvmaiaa.aluguelcarros.api.domain.repository.LocadoraRepository;
-import com.jvmaiaa.aluguelcarros.api.exception.CarroNotFoundException;
-import static com.jvmaiaa.aluguelcarros.api.mapper.CarroMapper.*;
-
-import com.jvmaiaa.aluguelcarros.api.exception.LocadoraNotFoundException;
+import com.jvmaiaa.aluguelcarros.api.exception.EntityNotFoundException;
 import com.jvmaiaa.aluguelcarros.api.mapper.CarroMapper;
 import com.jvmaiaa.aluguelcarros.api.service.CarroService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.jvmaiaa.aluguelcarros.api.exception.ErroMessages.*;
+import static com.jvmaiaa.aluguelcarros.api.mapper.CarroMapper.atualizaCampos;
 
 @RequiredArgsConstructor
 @Service
@@ -34,7 +34,7 @@ public class CarroServiceImpl implements CarroService {
         CarroEntity entity = CarroMapper.requestToEntity(carroRequestDTO);
         Long idLocadora = carroRequestDTO.getIdLocadora();
         LocadoraEntity locadora = locadoraRepository.findById(idLocadora)
-                .orElseThrow(() -> new LocadoraNotFoundException(idLocadora));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(LOCADORA_NAO_ENCONTRADA, idLocadora)));
         entity.setLocadora(locadora);
         entity.setDisponivel(true);
         carroRepository.save(entity);
@@ -46,7 +46,7 @@ public class CarroServiceImpl implements CarroService {
     @Override
     public CarroResponseDTO buscaId(Long id) {
         CarroEntity entity = carroRepository.findById(id)
-                .orElseThrow(() -> new CarroNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CARRO_NAO_ENCONTRADO, id)));
         CarroResponseDTO response = CarroMapper.entityToResponse(entity);
         response.setIdLocadora(carroRepository.findIdLocadooraByIdCarro(id));
         return response;
@@ -71,12 +71,12 @@ public class CarroServiceImpl implements CarroService {
                     atualizaCampos(carro, dto);
                     carroRepository.save(carro);
                     return modelMapper.map(carro, CarroResponseDTO.class);
-                }).orElseThrow(() -> new CarroNotFoundException(id));
+                }).orElseThrow(() -> new EntityNotFoundException(String.format(CARRO_NAO_ENCONTRADO, id)));
     }
 
     @Override
     public void deleta(Long id) {
         carroRepository.delete(carroRepository.findById(id)
-                .orElseThrow(() -> new CarroNotFoundException(id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(CARRO_NAO_ENCONTRADO, id))));
     }
 }
