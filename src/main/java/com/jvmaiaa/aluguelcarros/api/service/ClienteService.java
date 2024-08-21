@@ -9,7 +9,7 @@ public interface ClienteService {
 
     ClienteResponseDTO cadastra(ClienteRequestDTO clienteRequestDTO);
 
-    List<ClienteResponseDTO> listaCliente();
+    List<ClienteResponseDTO> listaClientes();
 
     List<ClienteResponseDTO> listaClienteComEndereco();
 

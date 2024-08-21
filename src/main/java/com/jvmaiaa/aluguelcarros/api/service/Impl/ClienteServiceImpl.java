@@ -51,7 +51,7 @@ public class ClienteServiceImpl implements ClienteService {
 
 
     @Override
-    public List<ClienteResponseDTO> listaCliente() {
+    public List<ClienteResponseDTO> listaClientes() {
         return clienteRepository.findAll()
                 .stream()
                 .map(cliente -> ClienteResponseDTO.builder()

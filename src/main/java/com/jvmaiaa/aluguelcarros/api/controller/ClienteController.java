@@ -40,7 +40,7 @@ public class ClienteController implements ClienteControllerOpenApi {
     @GetMapping
     @ResponseStatus(OK)
     public List<ClienteResponseDTO> getClientes(){
-        return clienteService.listaCliente();
+        return clienteService.listaClientes();
     }
 
     @PreAuthorize("hasAnyRole('CLIENTE', 'FUNCIONARIO')")
