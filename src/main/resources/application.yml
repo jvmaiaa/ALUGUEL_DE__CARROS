@@ -18,6 +18,9 @@ spring:
 
   # Porta e prefixo da aplicação
 server:
-  #port: 8085
+  # porta: 8085
   servlet:
     context-path: /api
+  # nunca inclui a stacktrace no console
+#  error:
+#    include-stacktrace: never
