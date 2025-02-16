@@ -24,3 +24,8 @@ server:
   # nunca inclui a stacktrace no console
 #  error:
 #    include-stacktrace: never
+
+  # Exibe o Log de todos os filtros do spring security
+logging:
+  level:
+    org.springframework.security: TRACE

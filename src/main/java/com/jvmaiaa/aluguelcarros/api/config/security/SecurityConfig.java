@@ -32,23 +32,20 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/locadora").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/funcionario").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/endereco").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/swagger-ui/index.html").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/cliente**").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/locadora").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/funcionario").permitAll()
-//                        .requestMatchers("/endereco/**").permitAll()
-//                        .requestMatchers( HttpMethod.GET, "/locadora**").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.GET, "/cliente**").hasRole("USER")
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(
+                        authorize -> {
+                                authorize.requestMatchers(HttpMethod.POST, "/auth**").permitAll();
+                                authorize.requestMatchers(HttpMethod.GET, "/computador**").permitAll();
+                                authorize.requestMatchers(HttpMethod.POST, "/locadora").permitAll();
+                                authorize.requestMatchers(HttpMethod.POST, "/funcionario").permitAll();
+                                authorize.requestMatchers(HttpMethod.POST, "/endereco").permitAll();
+                                authorize.requestMatchers(HttpMethod.POST, "/cliente").permitAll();
+                                authorize.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll();
+                                authorize.requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll();
+                                authorize.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
+                                authorize.requestMatchers(HttpMethod.GET, "/api/swagger-ui/index.html").permitAll();
+                                authorize.anyRequest().authenticated();
+                        }
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
